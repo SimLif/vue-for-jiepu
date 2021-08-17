@@ -194,6 +194,19 @@ export const constantRoutes = [
       }
     ]
   },
+  //医生
+   {
+    path: '/doctors',
+    component: Layout,
+    children: [
+      {
+        path: 'my-patiens',
+        name: 'Patients',
+        component: () => import('@/views/doctors/Patients'),
+        meta: { title: '我的病人', roles: ['doctor'],icon: 'form' }
+      }
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
 

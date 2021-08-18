@@ -124,52 +124,70 @@ export const constantRoutes = [
     ]
   },
 
-  //患者
+  // 患者
+  // 菜单一： 身体监测
   {
-    path: '/center',
+    path: '/patients-monitor',
     component: Layout,
-    redirect: '/center/body',
+    children: [
+      {
+        path: 'monitor',
+        name: 'Monitor',
+        component: () => import('@/views/patients/center/monitor/index'),
+        meta: { title: '身体监测', roles: ['patient','relation'], icon: 'table' }
+      }
+    ]
+  },
+
+  // 菜单二：个人中心
+  {
+    path: '/patients-center',
+    component: Layout,
+    redirect: '/patients-center/companions',
     name: 'Center',
     meta: { title: '个人中心', icon: 'el-icon-s-help' },
     children: [
       {
-        path: 'body',
-        name: 'Body',
-        component: () => import('@/views/center/body/index'),
-        meta: { title: '身体监测', roles: ['patient','relation'], icon: 'table' }
+        path: 'companions',
+        name: 'Companions',
+        component: () => import('@/views/patients/center/companions/index'),
+        meta: { title: '我的陪伴',  roles: ['patient','relation'], icon: 'tree' }
       },
       {
         path: 'medical',
         name: 'Medical',
-        component: () => import('@/views/center/medical/index'),
-        meta: { title: '我的医护',  roles: ['patient','relation'], icon: 'tree' }
+        component: () => import('@/views/patients/center/medical/index'),
+        meta: { title: '我的医护',  roles: ['patient'],icon: 'table' }
       },
       {
         path: 'realtion',
         name: 'Relation',
-        component: () => import('@/views/center/relation/index'),
+        component: () => import('@/views/patients/center/relation/index'),
         meta: { title: '我的家属',  roles: ['patient'],icon: 'table' }
       },
       {
         path: 'information',
         name: 'Information',
-        component: () => import('@/views/center/information/index'),
+        component: () => import('@/views/patients/center/information/index'),
         meta: { title: '个人信息',  roles: ['patient','relation'],icon: 'table' }
       }
     ]
   },
+  
+
   {
-    path: '/equipment',
+    path: '/patients-equipment',
     component: Layout,
     children: [
       {
-        path: 'index',
+        path: 'equipments',
         name: 'Equipment',
-        component: () => import('@/views/equipment/index'),
+        component: () => import('@/views/patients/equipment/index'),
         meta: { title: '设备管理', roles: ['patient'],icon: 'form' }
       }
     ]
   },
+
   {
     path: '/notice',
     component: Layout,
@@ -183,13 +201,13 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/visualization',
+    path: '/patients-visualization',
     component: Layout,
     children: [
       {
-        path: 'index',
+        path: 'visual',
         name: 'Data_visualization',
-        component: () => import('@/views/visualization/index'),
+        component: () => import('@/views/patients/visualization/index'),
         meta: { title: '数据可视化', roles: ['patient'],icon: 'form' }
       }
     ]

@@ -232,13 +232,13 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/doctors-center/my-info',
     name: 'PersonalCentre',
-    meta: { title: '个人中心', roles: ['admin'], icon: 'el-icon-s-help' },
+    meta: { title: '个人中心', roles: ['doctor'], icon: 'el-icon-s-help' },
     children: [
       {
         path: 'my-info',
         name: 'Info',
         component: () => import('@/views/doctors/Info'),
-        meta: { title: '我的信息', roles: ['admin'],icon: 'form' }
+        meta: { title: '我的信息', roles: ['doctor'],icon: 'form' }
       },
     ]
   },
@@ -252,7 +252,7 @@ export const constantRoutes = [
         path: 'my-patiens',
         name: 'Patients',
         component: () => import('@/views/nurses/Patients'),
-        meta: { title: '我的病人', roles: ['admin'],icon: 'form' }
+        meta: { title: '我的病人', roles: ['nurse'],icon: 'form' }
       },
     ]
   },
@@ -262,13 +262,13 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/nurses-center/my-info',
     name: 'PersonalCentre',
-    meta: { title: '个人中心', roles: ['admin'], icon: 'el-icon-s-help' },
+    meta: { title: '个人中心', roles: ['nurse'], icon: 'el-icon-s-help' },
     children: [
       {
         path: 'my-info',
         name: 'Info',
         component: () => import('@/views/nurses/Info'),
-        meta: { title: '我的信息', roles: ['admin'],icon: 'form' }
+        meta: { title: '我的信息', roles: ['nurse'],icon: 'form' }
       },
     ]
   },

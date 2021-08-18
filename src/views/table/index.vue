@@ -485,6 +485,7 @@ export default {
     handleeditfileChange(file) {
       console.log(file);
       this.edituserform.avatar = file.raw;
+      console.log(this.edituserform.avatar)
       this.imageUrl = URL.createObjectURL(file.raw);
     },
     //头像合理性校验

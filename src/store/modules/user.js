@@ -56,7 +56,6 @@ const actions = {
     return new Promise((resolve, reject) => {
 
       getInfo(state.token).then(response => {
-        console.log(response.data.user_id,"sdfsdsds")
         getinfo2(response.data.user_id).then(response=>{const { data } = response
           console.log(data,'response...')
           if (!data) {
@@ -65,14 +64,13 @@ const actions = {
           const { username, avatar } = data
           commit('SET_NAME', username)
           commit('SET_AVATAR', avatar)
-  
           //权限把控：角色处理
           let roles = []
           roles.push(data.identity)
           // data.results[0].groups.forEach(item=>{
           //   roles.push(item.name)
           // })
-          console.log(roles,"roles...")
+          //console.log(roles,"roles...")
           if(!roles || roles.lengty <= 0) {
             reject('获取role失败')
           }

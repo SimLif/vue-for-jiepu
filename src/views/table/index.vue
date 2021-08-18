@@ -36,6 +36,7 @@
     </div>
 
     <!--2.数据展示表格-->
+    
     <div id="datatable">
       <el-table border :data="tableData" style="width: 100%; margin-top: 15px">
         <el-table-column label="编号" width="50">
@@ -370,6 +371,7 @@ export default {
           this.adduserform.user_id = res.data.id;
           // emailform.user_id=this.adduserform.user_id
           emailform.append("user_id", this.adduserform.user_id);
+          console.log(emailform[0].user_id,"444")
           request({
             url: "/email/",
             method: "post",

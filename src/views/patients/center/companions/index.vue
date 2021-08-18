@@ -37,7 +37,7 @@
                 <div class="ui dimmer">
                   <div class="content">
                     <div class="center">
-                      <div class="ui inverted button">个人信息</div>
+                      <div @click="handleShowNurseInfo" class="ui inverted button">个人信息</div>
                     </div>
                   </div>
                 </div>
@@ -64,7 +64,7 @@
                 <div class="ui dimmer">
                   <div class="content">
                     <div class="center">
-                      <div class="ui inverted button">个人信息</div>
+                      <div @click="handleShowRelationInfo" class="ui inverted button">个人信息</div>
                     </div>
                   </div>
                 </div>
@@ -118,7 +118,7 @@
             </div>
             <div class="extra content">
               <div class="ui two buttons">
-                  <div class="ui basic green button">查看详情</div>
+                  <div @click="handleShowRelationInfo" class="ui basic green button">查看详情</div>
                   <div class="ui basic red button">移除家属</div>
                 </div>
             </div>
@@ -127,6 +127,7 @@
         </div>
     </div>
 
+    <!-- 添加家属 -->
     <el-dialog
       :visible.sync="ifAddRelation"
       width="60%"
@@ -203,9 +204,10 @@
       
     </el-dialog>
 
+    <!-- 医生个人信息 -->
     <el-dialog
       :visible.sync="showDoctorInfo"
-      width="60%"
+      width="45%"
       >
     <form class="ui form">
         <div class="ui grid">
@@ -267,31 +269,212 @@
         <div class="two fields">
           <div class="field">
             <label>电话号码</label>
-            <div v-show="!ifEdit" class="ui segment">{{doctorInfo.phonenumber}}</div>
-            <input v-show="ifEdit" type="text" name="phonenumber" v-model="doctorInfo.phonenumber">
+            <div class="ui segment">{{doctorInfo.phonenumber}}</div>
           </div>
           <div class="field">
             <label>电子邮箱</label>
-            <div v-show="!ifEdit" class="ui segment">{{doctorInfo.email}}</div>
-            <input v-show="ifEdit" type="text" name="email" v-model="doctorInfo.email">           
+            <div class="ui segment">{{doctorInfo.email}}</div>         
           </div>
         </div>
         <div class="two fields">
           <div class="field">
             <label>部门</label>
-            <div v-show="!ifEdit" class="ui segment">{{doctorInfo.department}}</div>
-            <input v-show="ifEdit" type="text" name="department" v-model="doctorInfo.department">
+            <div class="ui segment">{{doctorInfo.department}}</div>
           </div>
           <div class="field">
             <label>职称</label>
-            <div v-show="!ifEdit" class="ui segment">{{doctorInfo.title}}</div>
-            <input v-show="ifEdit" type="text" name="title" v-model="doctorInfo.title">           
+            <div class="ui segment">{{doctorInfo.title}}</div>         
           </div>
         </div> 
         <div class="field">
           <label>简介</label>  
-            <div v-show="!ifEdit" class="ui stacked segment">{{doctorInfo.description}}</div>
-            <el-input v-show="ifEdit" type="textarea" v-model="doctorInfo.description"></el-input>   
+            <div class="ui stacked segment">{{doctorInfo.description}}</div>
+        </div>
+      </form>
+      
+
+      
+      
+    </el-dialog>
+
+    <!-- 护士个人信息 -->
+    <el-dialog
+      :visible.sync="showNurseInfo"
+      width="45%"
+      >
+    <form class="ui form">
+        <div class="ui grid">
+          <div class="eight wide column">
+            <div class="field">
+              <label>姓名</label>
+              <input v-show="ifEdit" type="text" name="name" v-model="doctorInfo.name">
+              <div v-show="!ifEdit" class="ui vertical right aligned segment" style="padding:1% 0%">{{doctorInfo.name}}</div>
+              
+              <label>性别</label>
+              <div v-show="!ifEdit"  class="ui vertical right aligned segment" style="padding:1% 0%">{{doctorInfo.sex ? "男" : "女"}}</div>
+              <select v-show="ifEdit" class="ui dropdown" v-model="doctorInfo.sex">
+                <option value="">性别</option>
+                <option value="1">男性</option>
+                <option value="0">女性</option>
+              </select>
+
+              <label>年龄</label>
+              <div v-show="!ifEdit" class="ui vertical right aligned segment" style="padding:1% 0%">{{doctorInfo.age}}</div>
+              <input v-show="ifEdit" type="number" name="age" v-model="doctorInfo.age">
+            </div>
+          </div>
+
+          <div class="eight wide column">
+            <div class="field ">
+                <div class="ui right aligned container" style="margin-top:5%">
+                  <!-- <label>名</label> -->
+                  <el-upload
+                    class="avatar-uploader"
+                    action="11"
+                    :auto-upload="false"
+                    :show-file-list="false"
+                    v-show="ifEdit"
+                    
+                  >
+                    <!-- <img v-if="imageUrl" :src="imageUrl" class="avatar" /> -->
+                    <!-- <i class="el-icon-plus avatar-uploader-icon"></i> -->
+                    <div id="user-avatar" class="blurring dimmable image">
+                      <div  class="ui inverted dimmer">
+                        <div class="content">
+                          <div class="center">
+                            <div class="ui primary button">修改头像</div>
+                          </div>
+                        </div>
+                      </div>
+                      <img  class="ui small rounded image" src="@/assets/images/kristy.png">
+                    </div>
+                    
+                    <!-- <img class="ui small rounded image" src="@/assets/images/kristy.png"> -->
+                  </el-upload>
+                  <img v-show="!ifEdit" class="ui small rounded right floated  image" src="@/assets/images/kristy.png">
+                  <!-- <label>头像</label> -->
+                </div>
+                
+                
+            </div>
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <label>电话号码</label>
+            <div class="ui segment">{{doctorInfo.phonenumber}}</div>
+          </div>
+          <div class="field">
+            <label>电子邮箱</label>
+            <div class="ui segment">{{doctorInfo.email}}</div>         
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <label>部门</label>
+            <div class="ui segment">{{doctorInfo.department}}</div>
+          </div>
+          <div class="field">
+            <label>职称</label>
+            <div class="ui segment">{{doctorInfo.title}}</div>         
+          </div>
+        </div> 
+        <div class="field">
+          <label>简介</label>  
+            <div class="ui stacked segment">{{doctorInfo.description}}</div>
+        </div>
+      </form>
+      
+
+      
+      
+    </el-dialog>
+    
+    <!-- 家属个人信息 -->
+    <el-dialog
+      :visible.sync="showRelationInfo"
+      width="45%"
+      >
+    <form class="ui form">
+        <div class="ui grid">
+          <div class="eight wide column">
+            <div class="field">
+              <label>姓名</label>
+              <input v-show="ifEdit" type="text" name="name" v-model="doctorInfo.name">
+              <div v-show="!ifEdit" class="ui vertical right aligned segment" style="padding:1% 0%">{{doctorInfo.name}}</div>
+              
+              <label>性别</label>
+              <div v-show="!ifEdit"  class="ui vertical right aligned segment" style="padding:1% 0%">{{doctorInfo.sex ? "男" : "女"}}</div>
+              <select v-show="ifEdit" class="ui dropdown" v-model="doctorInfo.sex">
+                <option value="">性别</option>
+                <option value="1">男性</option>
+                <option value="0">女性</option>
+              </select>
+
+              <label>年龄</label>
+              <div v-show="!ifEdit" class="ui vertical right aligned segment" style="padding:1% 0%">{{doctorInfo.age}}</div>
+              <input v-show="ifEdit" type="number" name="age" v-model="doctorInfo.age">
+            </div>
+          </div>
+
+          <div class="eight wide column">
+            <div class="field ">
+                <div class="ui right aligned container" style="margin-top:5%">
+                  <!-- <label>名</label> -->
+                  <el-upload
+                    class="avatar-uploader"
+                    action="11"
+                    :auto-upload="false"
+                    :show-file-list="false"
+                    v-show="ifEdit"
+                    
+                  >
+                    <!-- <img v-if="imageUrl" :src="imageUrl" class="avatar" /> -->
+                    <!-- <i class="el-icon-plus avatar-uploader-icon"></i> -->
+                    <div id="user-avatar" class="blurring dimmable image">
+                      <div  class="ui inverted dimmer">
+                        <div class="content">
+                          <div class="center">
+                            <div class="ui primary button">修改头像</div>
+                          </div>
+                        </div>
+                      </div>
+                      <img  class="ui small rounded image" src="@/assets/images/kristy.png">
+                    </div>
+                    
+                    <!-- <img class="ui small rounded image" src="@/assets/images/kristy.png"> -->
+                  </el-upload>
+                  <img v-show="!ifEdit" class="ui small rounded right floated  image" src="@/assets/images/kristy.png">
+                  <!-- <label>头像</label> -->
+                </div>
+                
+                
+            </div>
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <label>电话号码</label>
+            <div class="ui segment">{{doctorInfo.phonenumber}}</div>
+          </div>
+          <div class="field">
+            <label>电子邮箱</label>
+            <div class="ui segment">{{doctorInfo.email}}</div>         
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <label>部门</label>
+            <div class="ui segment">{{doctorInfo.department}}</div>
+          </div>
+          <div class="field">
+            <label>职称</label>
+            <div class="ui segment">{{doctorInfo.title}}</div>         
+          </div>
+        </div> 
+        <div class="field">
+          <label>简介</label>  
+            <div class="ui stacked segment">{{doctorInfo.description}}</div>
         </div>
       </form>
       
@@ -342,6 +525,8 @@ export default {
       },
       ifAddRelation : false,
       showDoctorInfo : false,
+      showNurseInfo : false,
+      showRelationInfo : false,
       
     }
   },
@@ -372,7 +557,13 @@ export default {
     },
     handleShowDoctorInfo(e) {
       this.showDoctorInfo = !this.showDoctorInfo
-    }
+    },
+    handleShowNurseInfo(e) {
+      this.showNurseInfo = !this.showNurseInfo
+    },
+    handleShowRelationInfo(e) {
+      this.showRelationInfo = !this.showRelationInfo
+    },
   },
   mounted() {
     $('.special.cards .image').dimmer({

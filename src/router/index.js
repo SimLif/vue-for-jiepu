@@ -212,9 +212,10 @@ export const constantRoutes = [
       }
     ]
   },
-  //医生
+  // 医生
+  // 菜单一：我的病人
    {
-    path: '/doctors',
+    path: '/doctors-patiens',
     component: Layout,
     children: [
       {
@@ -223,6 +224,52 @@ export const constantRoutes = [
         component: () => import('@/views/doctors/Patients'),
         meta: { title: '我的病人', roles: ['doctor'],icon: 'form' }
       }
+    ]
+  },
+  // 菜单二：个人中心
+  {
+    path: '/doctors-center',
+    component: Layout,
+    redirect: '/doctors-center/my-info',
+    name: 'PersonalCentre',
+    meta: { title: '个人中心', roles: ['admin'], icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'my-info',
+        name: 'Info',
+        component: () => import('@/views/doctors/Info'),
+        meta: { title: '我的信息', roles: ['admin'],icon: 'form' }
+      },
+    ]
+  },
+  //护士
+  //一级菜单：我的病人
+  {
+    path: '/nurses-patiens',
+    component: Layout,
+    children: [
+      {
+        path: 'my-patiens',
+        name: 'Patients',
+        component: () => import('@/views/nurses/Patients'),
+        meta: { title: '我的病人', roles: ['admin'],icon: 'form' }
+      },
+    ]
+  },
+  //二级菜单：个人中心
+  {
+    path: '/nurses-center',
+    component: Layout,
+    redirect: '/nurses-center/my-info',
+    name: 'PersonalCentre',
+    meta: { title: '个人中心', roles: ['admin'], icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'my-info',
+        name: 'Info',
+        component: () => import('@/views/nurses/Info'),
+        meta: { title: '我的信息', roles: ['admin'],icon: 'form' }
+      },
     ]
   },
   { path: '*', redirect: '/404', hidden: true }

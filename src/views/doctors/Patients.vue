@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <h1 class="ui header">我的病人</h1>
+    <!-- <h1 class="ui header">我的病人</h1> -->
 
     <!-- <div class="ui menu">
         <div class="right menu">

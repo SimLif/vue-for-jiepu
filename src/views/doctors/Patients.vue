@@ -1,6 +1,5 @@
 <template>
-  <div class="dashboard-container ">
-
+  <div class="dashboard-container">
     <h1 class="ui header">我的病人</h1>
 
     <!-- <div class="ui menu">
@@ -13,52 +12,42 @@
 
     <div v-show="!ifSearch" class="ui right aligned container segment">
       <div class="ui action input">
-        <input type="text" placeholder="输入ID搜索添加病人...">
+        <input type="text" v-model="id" placeholder="输入ID搜索添加病人..." />
         <button @click="reverseSearchFlag" class="ui icon button">
           <i class="search icon"></i>
         </button>
       </div>
     </div>
-
     <div v-show="ifSearch" class="ui right aligned container segment">
-      <button @click="reverseSearchFlag" class="ui button">
-        取消添加
-      </button>
+      <button @click="reverseSearchFlag" class="ui button">取消添加</button>
     </div>
 
     <div v-show="ifSearch" class="ui center aligned container segment">
       <div id="datatable">
-        <el-table border :data="tableData" style="width: 100%; margin-top: 15px">
-          <el-table-column label="编号" width="50">
-            <template slot-scope="scope">
-              <span style="margin-left: 10px">{{ scope.$index + 1 }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="病人姓名" align="center" width="180">
-            <template slot-scope="scope">
-              <el-image
-                style="width: 40px; height: 40px"
-                :src="scope.row.avatar"
-              ></el-image>
-            </template>
-          </el-table-column>
+        <el-table
+          border
+          :data="tableData"
+          style="width: 100%; margin-top: 15px"
+        >
           <el-table-column
             label="病人ID"
             align="center"
             width="150"
             style="margin-left: 10px"
+            prop="id"
           >
+          </el-table-column>
+          <el-table-column label="病人姓名" align="center" width="180">
             <template slot-scope="scope">
-              <span style="margin-left: 10px">{{ scope.row.username }}</span>
+              <span style="margin-left: 10px">{{ scope.row.name }}</span>
             </template>
           </el-table-column>
-
           <el-table-column label="操作" align="center">
             <template slot-scope="scope">
               <el-button
                 size="mini"
                 type="danger"
-                @click="handleDelete(scope.row.id)"
+                @click="handleAdd(scope.row.id)"
                 >添加患者</el-button
               >
             </template>
@@ -66,41 +55,37 @@
         </el-table>
       </div>
     </div>
-
     <div class="ui container">
-        <div class = "ui four stackable cards">
-            <div v-for="t in test"  class="ui centered card" :key="t.index">
-              <div class="content">
-                <img class="right floated mini ui image" src="@/assets/images/kristy.png">
-                <div class="header">
-                  病人姓名
-                </div>
-                <div class="meta">
-                  病人所处病房
-                </div>
-                <div class="description">
-                  <div class="ui internally celled grid">
-                    
-                    <div class="eight wide column">心率</div>
-                    <div class="eight wide column">血压</div>
+      <div class="ui four stackable cards">
+        <div v-for="t in count > 8 ? 8 : count" class="ui centered card" :key="t.index">
+          <div class="content">
+            <!-- <img
+              class="right floated mini ui image"
+              :src="patienttable[t - 1].avatar"
+            /> -->
+            <div class="header">{{ patienttable[(page-1)*8+t - 1].name }}</div>
+            <div class="meta">病房{{ patienttable[(page-1)*8+t - 1].ward_id }}</div>
+            <div class="description">
+              <div class="ui internally celled grid">
+                <div class="eight wide column" >心率{{data[(page-1)*8+t-1].Heart_rate}}</div>
+                <div class="eight wide column">血压{{data[(page-1)*8+t-1].Blood_pressure}}</div>
 
-                    <div class="three column row">
-                      <div class="column">体温</div>
-                      <div class="column">血氧</div>
-                      <div class="column">呼吸值</div>
-                    </div>
-                  </div>
+                <div class="three column row">
+                  <div class="column">体温{{data[(page-1)*8+t-1].Body_temperature}}</div>
+                  <div class="column">血氧{{data[(page-1)*8+t-1].Blood_oxygen}}</div>
+                  <div class="column">呼吸值{{data[(page-1)*8+t-1].Blood_oxygen}}</div>
                 </div>
-              </div>
-              <div class="extra content">
-                <div class="ui three buttons">
-                  <div class="ui basic green button">重点关注</div>
-                  <div class="ui basic red button">移除病人</div>
-                </div>
-                
               </div>
             </div>
+          </div>
+          <div class="extra content">
+            <div class="ui three buttons">
+              <div class="ui basic green button">重点关注</div>
+              <div class="ui basic red button" @click="deletepatient(patienttable[(page-1)*8+t-1].id)">移除病人</div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- <div class="ui container segment" style="position:fixed;top:40%;left:0;right:0;margin:0 auto;">
@@ -109,42 +94,307 @@
 
     <!-- <div class="ui divider"></div> -->
 
-    <div class="ui centered grid" style="margin-top:3%">
-        <el-pagination
-            background
-            layout="prev, pager, next"
-            :total="1000">
-        </el-pagination>
+    <div class="ui centered grid" style="margin-top: 3%">
+      <el-pagination background layout="prev, pager, next" @current-change="handleCurrentChange" :current-page="page" :total=count/8>
+      </el-pagination>
     </div>
-
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import store from "../../store";
+import { mapGetters } from "vuex";
+import request from "../../utils/request.js";
 // import $ from "jquery";
-import "@/assets/semantic-ui/semantic.min.js"
-import "@/assets/semantic-ui/semantic.min.css"
+import "@/assets/semantic-ui/semantic.min.js";
+import "@/assets/semantic-ui/semantic.min.css";
 
 export default {
-  name: 'Dashboard',
+  name: "Dashboard",
   data() {
-      return {
-          test : [1, 2, 3, 4, 6, 7, 8, 9],
-          ifSearch : false
-          }
+    return {
+      tableData: [
+        {
+          id: "",
+        },
+      ],
+      page:1,
+      ifSearch: false,
+      id: 0,
+      params: {
+        user_id: 0,
+      },
+      count: 0,
+      patienttable: [],
+      
+      params1: {
+        doctor_id: 0,
+      },
+      params2: {
+        patient_id: 0,
+        name
+      },
+      params3:{
+        patient_id:0,
+        name:"",
+      },
+      params4:{
+        device_id:0
+      },
+      data:[{
+        Heart_rate:0,
+        Blood_pressure:0,
+        Body_temperature:0,
+        Blood_oxygen:0,
+        Breathing_value:0,
+      },
+      {
+        Heart_rate:1,
+        Blood_pressure:0,
+        Body_temperature:0,
+        Blood_oxygen:0,
+        Breathing_value:0,
+      }]
+    };
   },
-  computed: {
-    ...mapGetters([
-      'name'
-    ])
+  watch: {
+    id: {
+      handler: function (newparams, oldparams) {
+        //时刻监听params数据的变化，一旦发生变化自动调用该方法
+        //console.log(newparams, oldparams, "11");
+        //重新加载数据
+        request({
+          url: "/patient/patient/" + this.id + "/",
+          method: "get",
+        }).then((res) => {
+          //请求成功的处理
+          this.tableData[0] = res.data;
+        });
+      },
+      deep: true, //深度监听（对象或数据）
+    },
+  },
+  created() {
+    this.fetchPatientData();
   },
   methods: {
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.page = val;
+    },
+    deletepatient(id){
+      var editform = {
+        doctor_id: 1
+      }
+      request({
+        url:"/patient/patient/" + id +"/",
+        method:"patch",
+        data:editform
+      })
+      this.fetchPatientData();
+    },
     reverseSearchFlag(event) {
       this.ifSearch = !this.ifSearch;
     },
-  }
-}
+    handleAdd(id) {
+      var storage = localStorage.getItem("id");
+      var editform = new FormData();
+      var editform2 = new FormData();
+      this.params.user_id = storage;
+      //将病人与医生绑定
+      request({
+        url: "/doctor/doctor/",
+        method: "get",
+        params: this.params,
+      }).then((res) => {
+        editform.append("doctor_id", res.data[0].id);
+        request({
+          url: "patient/patient/" + id + "/",
+          method: "patch",
+          data: editform,
+        });
+      });
+      //添加一个病人后会自动绑定五个空闲的设备
+      this.params3.name="温度计"
+      request({
+        url:"/device/medicaleq/",
+        method:"get",
+        params:this.params3
+      }).then((res)=>{
+        editform2.append("patient_id",id)
+        request({
+          url:"/device/medicaleq/" + res.data[0].id + "/",
+          method:"patch",
+          data: editform2,
+        })
+      })
+      this.params3.name="血压计"
+      request({
+        url:"/device/medicaleq/",
+        method:"get",
+        params:this.params3
+      }).then((res)=>{
+        editform2.append("patient_id",id)
+        request({
+          url:"/device/medicaleq/" + res.data[0].id + "/",
+          method:"patch",
+          data: editform2,
+        })
+      })
+      this.params3.name="血氧计"
+      request({
+        url:"/device/medicaleq/",
+        method:"get",
+        params:this.params3
+      }).then((res)=>{
+        editform2.append("patient_id",id)
+        request({
+          url:"/device/medicaleq/" + res.data[0].id + "/",
+          method:"patch",
+          data: editform2,
+        })
+      })
+      this.params3.name="心电仪"
+      request({
+        url:"/device/medicaleq/",
+        method:"get",
+        params:this.params3
+      }).then((res)=>{
+        editform2.append("patient_id",id)
+        request({
+          url:"/device/medicaleq/" + res.data[0].id + "/",
+          method:"patch",
+          data: editform2,
+        })
+      })
+      this.params3.name="呼吸机"
+      request({
+        url:"/device/medicaleq/",
+        method:"get",
+        params:this.params3
+      }).then((res)=>{
+        editform2.append("patient_id",id)
+        request({
+          url:"/device/medicaleq/" + res.data[0].id + "/",
+          method:"patch",
+          data: editform2,
+        })
+      })
+      this.fetchPatientData();
+    },
+    //加载医生管理的病人到patienttable，并将与病人绑定的设备添加到patienteqtable
+    fetchPatientData: function () {
+      var storage = localStorage.getItem("id");
+      this.params.user_id = storage;
+      var form = new FormData();
+      request({
+        url: "/doctor/doctor/",
+        method: "get",
+        params: this.params,
+      }).then((res) => {
+        this.params1.doctor_id = res.data[0].id;
+        request({
+          url: "/patient/patient/",
+          method: "get",
+          params: this.params1,
+        }).then((res) => {
+          this.count = res.data.count;
+          this.patienttable = res.data.results;
+          var m1=0
+          var m2=0
+          var m3=0
+          var m4=0
+          var m5=0
+          for (var i = 0; i < this.count; i++) {
+            this.params2.patient_id = res.data.results[i].id;
+            //给每个用户的五个设备赋值
+            this.params2.name = "温度计"
+            request({
+              url: "/device/medicaleq/",
+              methog: "get",
+              params: this.params2,
+            }).then((res) => {
+              console.log(res.data,"44444")
+              this.params4.device_id=res.data.results[0].id
+              request({
+                url:"/device/medicaldata/",
+                method:"get",
+                params:this.params4
+              }).then((res)=>{ 
+                this.data[m1].Body_temperature=res.data[res.data.length-1].data
+                m1++
+              })
+            });
+            this.params2.name = "心电仪"
+            request({
+              url: "/device/medicaleq/",
+              methog: "get",
+              params: this.params2,
+            }).then((res) => {
+              this.params4.device_id=res.data.results[0].id
+              request({
+                url:"/device/medicaldata/",
+                method:"get",
+                params:this.params4
+              }).then((res)=>{
+                this.data[m2].Heart_rate=res.data[res.data.length-1].data
+                m2++
+              })
+            });
+            this.params2.name = "血压计"
+            request({
+              url: "/device/medicaleq/",
+              methog: "get",
+              params: this.params2,
+            }).then((res) => {
+              this.params4.device_id=res.data.results[0].id
+              request({
+                url:"/device/medicaldata/",
+                method:"get",
+                params:this.params4
+              }).then((res)=>{
+                this.data[m3].Blood_pressure=res.data[res.data.length-1].data
+                m3++
+              })
+            });
+            this.params2.name = "血氧计"
+            request({
+              url: "/device/medicaleq/",
+              methog: "get",
+              params: this.params2,
+            }).then((res) => {
+              this.params4.device_id=res.data.results[0].id
+              request({
+                url:"/device/medicaldata/",
+                method:"get",
+                params:this.params4
+              }).then((res)=>{
+                this.data[m4].Blood_oxygen=res.data[res.data.length-1].data
+                m4++
+              })
+            });
+            this.params2.name = "呼吸计"
+            request({
+              url: "/device/medicaleq/",
+              methog: "get",
+              params: this.params2,
+            }).then((res) => {
+              this.params4.device_id=res.data.results[0].id
+              request({
+                url:"/device/medicaldata/",
+                method:"get",
+                params:this.params4
+              }).then((res)=>{
+                this.data[m5].Breathing_value=res.data[res.data.length-1].data
+                m5++
+              })
+            });
+          }
+        });
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -160,5 +410,5 @@ export default {
 </style>
 
 <style scoped>
-    /* @import "@/assets/css/semantic.min.css"; */
+/* @import "@/assets/css/semantic.min.css"; */
 </style>

@@ -38,10 +38,11 @@ export default {
                             opacity: 0.8,
                             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
                                 offset: 0,
-                                color: 'rgba(255, 191, 0)'
+                                color: 'rgba(224, 62, 76)'
+                                
                             }, {
                                 offset: 1,
-                                color: 'rgba(224, 62, 76)'
+                                color: 'rgba(255, 191, 0)'
                             }])
                         },
                     lineStyle: {

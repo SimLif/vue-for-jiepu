@@ -272,6 +272,31 @@ export const constantRoutes = [
       },
     ]
   },
+  // 管理员
+  {
+    path: '/admin-devices',
+    component: Layout,
+    children: [
+      {
+        path: 'devices',
+        name: 'Devices',
+        component: () => import('@/views/admin/Devices'),
+        meta: { title: '设备管理', roles: ['admin'],icon: 'form' }
+      },
+    ]
+  },
+  {
+    path: '/admin-users',
+    component: Layout,
+    children: [
+      {
+        path: 'users',
+        name: 'Users',
+        component: () => import('@/views/admin/Users'),
+        meta: { title: '用户管理', roles: ['admin'],icon: 'form' }
+      },
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
 

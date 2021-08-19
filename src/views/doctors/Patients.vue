@@ -154,6 +154,18 @@ export default {
         Body_temperature:0,
         Blood_oxygen:0,
         Breathing_value:0,
+      },{
+        Heart_rate:1,
+        Blood_pressure:0,
+        Body_temperature:0,
+        Blood_oxygen:0,
+        Breathing_value:0,
+      },{
+        Heart_rate:1,
+        Blood_pressure:0,
+        Body_temperature:0,
+        Blood_oxygen:0,
+        Breathing_value:0,
       }]
     };
   },
@@ -373,7 +385,7 @@ export default {
                 m4++
               })
             });
-            this.params2.name = "呼吸计"
+            this.params2.name = "呼吸机"
             request({
               url: "/device/medicaleq/",
               methog: "get",

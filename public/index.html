@@ -8,6 +8,15 @@
     <title><%= webpackConfig.name %></title>
     <!-- 引入echarts.js -->
     <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.1.2/echarts.min.js"></script>
+    <style>
+      @font-face{
+          font-family: 'LCD';
+          src:  url('<%= BASE_URL %>font/DJBGetDigital.ttf');
+          src:  url('<%= BASE_URL %>font/DJBGetDigital.eot') format('embedded-opentype'),
+          url('<%= BASE_URL %>font/DJBGetDigital.ttf') format('truetype'),
+          url('<%= BASE_URL %>font/DJBGetDigital.woff') format('woff'),
+      }
+    </style>
   </head>
   <body>
     <noscript>

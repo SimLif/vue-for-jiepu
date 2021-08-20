@@ -252,7 +252,7 @@ export default {
       tableData: [],
       params: {
         page: 1,
-        page_size: 5,
+        page_size: 10,
       },
       params_edit: {},
       total_number: 0,
@@ -371,7 +371,7 @@ export default {
           this.adduserform.user_id = res.data.id;
           // emailform.user_id=this.adduserform.user_id
           emailform.append("user_id", this.adduserform.user_id);
-          console.log(emailform[0].user_id,"444")
+          console.log(emailform[0],"444")
           request({
             url: "/email/",
             method: "post",

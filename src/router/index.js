@@ -151,7 +151,7 @@ export const constantRoutes = [
         path: 'companions',
         name: 'Companions',
         component: () => import('@/views/patients/center/companions/index'),
-        meta: { title: '我的陪伴',  roles: ['patient','relation'], icon: 'tree' }
+        meta: { title: '我的陪伴',  roles: ['patient'], icon: 'tree' }
       },
       {
         path: 'medical',
@@ -169,7 +169,7 @@ export const constantRoutes = [
         path: 'information',
         name: 'Information',
         component: () => import('@/views/patients/center/information/index'),
-        meta: { title: '个人信息',  roles: ['patient','relation'],icon: 'table' }
+        meta: { title: '个人信息',  roles: ['patient'],icon: 'table' }
       }
     ]
   },
@@ -210,6 +210,31 @@ export const constantRoutes = [
         component: () => import('@/views/patients/visualization/index'),
         meta: { title: '数据可视化', roles: ['patient'],icon: 'form' }
       }
+    ]
+  },
+  //家属
+  //菜单一：我的病人家属
+  
+  //菜单二：个人信息
+  {
+    path: '/relation-center',
+    component: Layout,
+    redirect: '/relation-center/my-info',
+    name: 'PersonalCentre',
+    meta: { title: '个人中心', roles: ['relation'], icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'my-info',
+        name: 'Info',
+        component: () => import('@/views/relation/Info'),
+        meta: { title: '个人信息', roles: ['relation'],icon: 'form' }
+      },
+      {
+        path: 'companions',
+        name: 'Companions',
+        component: () => import('@/views/relation/companions'),
+        meta: { title: '家属医护',  roles: ['relation'], icon: 'form' }
+      },
     ]
   },
   // 医生
@@ -269,6 +294,31 @@ export const constantRoutes = [
         name: 'Info',
         component: () => import('@/views/nurses/Info'),
         meta: { title: '我的信息', roles: ['nurse'],icon: 'form' }
+      },
+    ]
+  },
+  // 管理员
+  {
+    path: '/admin-devices',
+    component: Layout,
+    children: [
+      {
+        path: 'devices',
+        name: 'Devices',
+        component: () => import('@/views/admin/Devices'),
+        meta: { title: '设备管理', roles: ['admin'],icon: 'form' }
+      },
+    ]
+  },
+  {
+    path: '/admin-users',
+    component: Layout,
+    children: [
+      {
+        path: 'users',
+        name: 'Users',
+        component: () => import('@/views/admin/Users'),
+        meta: { title: '用户管理', roles: ['admin'],icon: 'form' }
       },
     ]
   },

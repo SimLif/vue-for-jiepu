@@ -144,8 +144,8 @@
 
         <el-slider
           v-model="tableData[current_index].data"
-          :min="0"
-          :max="100"
+          :min="300"
+          :max="1200"
           show-input
         ></el-slider>
       </el-dialog>
@@ -159,7 +159,7 @@
         </div>
         <div class="eight wide column">
           <div class="ui right aligned container">
-            <el-select
+            <!-- <el-select
               v-model="input"
               clearable
               placeholder="设备类型"
@@ -167,7 +167,7 @@
             >
               <el-option label="家居" value="0"></el-option>
               <el-option label="医疗" value="1"></el-option>
-            </el-select>
+            </el-select> -->
             <button @click="reverseAdd" class="ui primary button">
               添加设备
             </button>
@@ -179,7 +179,7 @@
       <div id="datatable">
         <el-table
           border
-          :data="tableData"
+           :data="tableData.slice(8 * (page - 1), 8 + 8 * (page - 1))"
           style="width: 100%; margin-top: 15px"
         >
           <el-table-column label="序号" align="center" width="50">
@@ -192,16 +192,17 @@
               <span>{{ scope.row.id }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="设备名称" align="center" width="150">
+         
+          <el-table-column label="设备名称" align="center" width="200">
+            <template slot-scope="scope">
+              <span>{{ scope.row.kind  }}</span>
+            </template>
+          </el-table-column>
+           <el-table-column label="设备类型" align="center" width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.name }}</span>
             </template>
           </el-table-column>
-          <!-- <el-table-column label="设备类型" align="center" width="100">
-            <template slot-scope="scope">
-              <span>{{ scope.row.type ? "家具" : "医疗" }}</span>
-            </template>
-          </el-table-column> -->
           <el-table-column label="设备状态" align="center" width="100">
             <template slot-scope="scope">
               <span>{{ scope.row.on ? "开" : "关" }}</span>
@@ -212,12 +213,12 @@
             <template slot-scope="scope">
               <button class="ui small positive basic button" @click="turn(scope.row.id,scope.row.name,scope.row.on)">开关</button>
               <button
-                @click="judgmentType(scope.row.name,scope.$index)"
+                @click="judgmentType(scope.row.name,scope.$index,scope.row.on)"
                 class="ui small primary basic button"
               >
                 控制
               </button>
-              <button class="ui small negative basic button">移除</button>
+              <button class="ui small negative basic button" @click="deleteeq(scope.row.id,scope.row.name)">移除</button>
               <!-- <el-button
                 size="mini"
                 type="danger"
@@ -233,7 +234,13 @@
         class="ui centered grid"
         style="margin-top: 3%; margin-bottom: 1%; overflow: auto"
       >
-        <el-pagination background layout="prev, pager, next" :total="1000">
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          @current-change="handleCurrentChange"
+          :current-page="page"
+          :total="tableData.length"
+        >
         </el-pagination>
       </div>
     </el-dialog>
@@ -248,13 +255,23 @@
         <div class="eight wide column">
           <div class="ui right aligned container">
             <el-select
-              v-model="input"
+              v-model="params6.name"
               clearable
               placeholder="设备类型"
               style="margin-right: 10px"
             >
-              <el-option label="家居" value="0"></el-option>
-              <el-option label="医疗" value="1"></el-option>
+              <el-option label="舒张压计" value="舒张压计"></el-option>
+          <el-option label="收缩压计" value="收缩压计"></el-option>
+          <el-option label="体温计" value="体温计"></el-option>
+          <el-option label="心电仪" value="心电仪"></el-option>
+          <el-option label="心跳测量器" value="心跳测量器"></el-option>
+          <el-option label="血氧机" value="血氧机"></el-option>
+          <el-option label="呼吸机" value="呼吸机"></el-option>
+          <el-option label="灯" value="灯"></el-option>
+          <el-option label="空调" value="空调"></el-option>
+          <el-option label="温度计" value="温度计"></el-option>
+          <el-option label="湿度计" value="湿度计"></el-option>
+          <el-option label="窗帘" value="窗帘"></el-option>
             </el-select>
             <button @click="reverseAdd" class="ui labeled icon button">
               <i class="right arrow icon"></i>
@@ -267,44 +284,40 @@
       <div id="datatable">
         <el-table
           border
-          :data="tableData"
+          :data="table.slice(10 * (page - 1), 10 + 10 * (page - 1))"
           style="width: 100%; margin-top: 15px"
         >
-          <el-table-column label="序号" align="center" width="50">
+          <el-table-column label="序号" align="center" width="80">
             <template slot-scope="scope">
               <span>{{ scope.$index + 1 }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="设备ID" align="center" width="80">
+          <el-table-column label="设备ID" align="center" width="100">
             <template slot-scope="scope">
               <span>{{ scope.row.id }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="设备名称" align="center" width="150">
+          <el-table-column label="设备名称" align="center" width="200">
+            <template slot-scope="scope">
+              <span>{{ scope.row.kind  }}</span>
+            </template>
+          </el-table-column>
+           <el-table-column label="设备类型" align="center" width="200">
             <template slot-scope="scope">
               <span>{{ scope.row.name }}</span>
             </template>
           </el-table-column>
-          <!-- <el-table-column label="设备类型" align="center" width="100">
-            <template slot-scope="scope">
-              <span>{{ scope.row.type ? "家具" : "医疗" }}</span>
-            </template>
-          </el-table-column> -->
           <el-table-column label="设备状态" align="center" width="100">
             <template slot-scope="scope">
               <span>{{ scope.row.on ? "开" : "关" }}</span>
             </template>
           </el-table-column>
 
-          <el-table-column label="操作" alnpmign="center">
-            <template slot-scope="">
-              <button class="ui small positive basic button">添加</button>
-              <!-- <el-button
-                size="mini"
-                type="danger"
-                @click="handleDelete(scope.row.id)"
-                >添加患者</el-button
-              > -->
+        
+            <el-table-column label="操作" align="center">
+            <template slot-scope="scope">
+              <button class="ui small positive basic button" @click="Add(scope.row.id,scope.row.name)">添加</button>
+              
             </template>
           </el-table-column>
         </el-table>
@@ -314,32 +327,37 @@
         class="ui centered grid"
         style="margin-top: 3%; margin-bottom: 1%; overflow: auto"
       >
-        <el-pagination background layout="prev, pager, next" :total="1000">
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          @current-change="handleCurrentChange"
+          :current-page="page"
+          :total="table.length"
+        >
         </el-pagination>
       </div>
     </el-dialog>
 
     <div class="ui container">
-      {{tableData}}
-      {{current_index}}
+
       <div class="ui four stackable cards">
-        <div v-for="t in patienttable.length> 8 ? 8 : patienttable.length" class="ui centered card" :key="t.index">
+        <div v-for="t in patienttable.length" class="ui centered card" :key="t.index">
           <div class="content">
-            <img
+            <!-- <img
               class="right floated mini ui image"
               src="@/assets/images/kristy.png"
-            />
-            <div class="header">{{ patienttable[(page-1)*8+t - 1].name }}</div>
-            <div class="meta">病房{{ patienttable[(page-1)*8+t - 1].ward_id }}</div>
+            /> -->
+            <div class="header">{{ patienttable[t - 1].name }}</div>
+            <div class="meta">病房{{ patienttable[t - 1].ward_id==2?101:102 }}</div>
             <div class="description">
               <div class="ui internally celled grid">
-                <div class="eight wide column">心率{{data[(page-1)*8+t-1].Heart_rate}}</div>
-                <div class="eight wide column">血压{{data[(page-1)*8+t-1].Blood_pressure}}</div>
+                <div class="eight wide column">心率{{data[t-1].Heart_rate}}次/分钟</div>
+                <div class="eight wide column">血压{{data[t-1].Dbq}}/{{data[t-1].Sbq}}mmHg</div>
 
                 <div class="three column row">
-                  <div class="column">体温{{data[(page-1)*8+t-1].Body_temperature}}</div>
-                  <div class="column">血氧{{data[(page-1)*8+t-1].Blood_oxygen}}</div>
-                  <div class="column">呼吸值{{data[(page-1)*8+t-1].Blood_oxygen}}</div>
+                  <div class="column">体温{{data[t-1].Body_temperature}}℃</div>
+                  <div class="column">血氧{{data[t-1].Blood_oxygen}}%</div>
+                  <div class="column">呼吸值{{data[t-1].Blood_oxygen}}次/分钟</div>
                 </div>
               </div>
             </div>
@@ -347,13 +365,13 @@
           <div class="extra content">
             <div class="ui two buttons">
               <div class="ui basic green button">重点关注</div>
-              <div class="ui basic red button">移除病人</div>
+              <div class="ui basic red button"  @click="deletepatient(patienttable[t - 1].id)">移除病人</div>
             </div>
 
             <div
               class="fluid ui basic blue button"
               style="margin-top: 2%"
-              @click="reverseInfo(patienttable[(page-1)*8+t - 1].id,patienttable[(page-1)*8+t - 1].ward_id)"
+              @click="reverseInfo(patienttable[t - 1].id,patienttable[t - 1].ward_id)"
             >
               设备管理
             </div>
@@ -369,7 +387,7 @@
     <!-- <div class="ui divider"></div> -->
 
     <div class="ui centered grid" style="margin-top: 3%">
-      <el-pagination background layout="prev, pager, next" :current-page="page" :total=patienttable.length/8>
+      <el-pagination background layout="prev, pager, next"  :total=1>
       </el-pagination>
     </div>
   </div>
@@ -386,28 +404,10 @@ export default {
   name: "Dashboard",
   data() {
     return {
+      ward_id:0,
+      patient_id:0,
       data: [
-        {
-          Heart_rate: 0,
-          Blood_pressure: 0,
-          Body_temperature: 0,
-          Blood_oxygen: 0,
-          Breathing_value: 0,
-        },
-        {
-          Heart_rate: 0,
-          Blood_pressure: 0,
-          Body_temperature: 0,
-          Blood_oxygen: 0,
-          Breathing_value: 0,
-        },
-        {
-          Heart_rate: 0,
-          Blood_pressure: 0,
-          Body_temperature: 0,
-          Blood_oxygen: 0,
-          Breathing_value: 0,
-        },
+       //五项指标数据
       ],
       current_index: 0,
       page: 1,
@@ -434,7 +434,13 @@ export default {
       params5: {
         patient_id: 0,
         //page,
-        //page_size
+        page_size:20
+      },
+      params6:{
+        page: 1,
+        page_size: 100,
+        ward_id:1,
+        patient_id:1
       },
       deviceInfoVisible: false,
       deviceAddVisible: false,
@@ -442,6 +448,7 @@ export default {
       controlAirConVisible: false,
       controlLightVisible: false,
       tableData: [
+        //已添加设备
         {
           name: "温度计",
           on: true,
@@ -451,6 +458,7 @@ export default {
           unit: null,
         },
       ],
+      table:[],//待添加设备库
       input: "",
       min_threshold_min: 0,
       min_threshold_max: 0,
@@ -464,18 +472,89 @@ export default {
   created() {
     this.fetchPatientData();
   },
-   watch: {
+  watch: {
     tableData: {
       handler: function (newparams, oldparams) {
         //时刻监听params数据的变化，一旦发生变化自动调用该方法
         //console.log(newparams, oldparams, "11");
         //重新加载数据
-        ;
+      },
+      deep: true, //深度监听（对象或数据）
+    },
+     params6: {
+      handler: function (newparams, oldparams) {
+        //时刻监听params数据的变化，一旦发生变化自动调用该方法
+        //console.log(newparams, oldparams, "11");
+        //重新加载数据
+        this.reverseAdd();
+        this.deviceInfoVisible = !this.deviceInfoVisible;
+      this.deviceAddVisible = !this.deviceAddVisible;
       },
       deep: true, //深度监听（对象或数据）
     },
   },
+
   methods: {
+    deletepatient(id){
+      request({
+        url:"/patient/patient/"+id+"/",
+        method:"patch",
+        data:{
+          "ward_id":1
+        }
+      })
+      this.fetchPatientData();
+    },
+    deleteeq(device_id,name){
+      if(name=="灯"||name=="空调"||name=="温度计"||name=="湿度计"||name=="窗帘")
+      {
+        request({
+          url:"/device/furnitureeq/"+device_id+"/",
+          method:"patch",
+          data:{
+            "ward_id":1,
+            "on":"false",
+          }
+        })
+      }
+      else{
+        request({
+          url:"/device/medicaleq/"+device_id+"/",
+          method:"patch",
+          data:{
+            "patient_id":1,
+            "on":"false",
+          }
+        })
+      }
+      this.deviceInfoVisible = !this.deviceInfoVisible;
+      this.reverseInfo(this.patient_id,this.ward_id)
+    },
+    Add(device_id,name){
+      if(name=="灯"||name=="空调"||name=="温度计"||name=="湿度计"||name=="窗帘")
+      {
+        request({
+          url:"/device/furnitureeq/"+device_id+"/",
+          method:"patch",
+          data:{
+            "ward_id":this.ward_id
+          }
+        })
+      }
+      else{
+        request({
+          url:"/device/medicaleq/"+device_id+"/",
+          method:"patch",
+          data:{
+            "patient_id":this.patient_id
+          }
+        })
+      }
+     this.reverseAdd();
+     this.deviceInfoVisible = !this.deviceInfoVisible;
+     this.deviceAddVisible = !this.deviceAddVisible;
+    
+    },
     turn(id, name, on1) {
       var params = {
         on: !on1,
@@ -503,6 +582,7 @@ export default {
       }
     },
     fetchPatientData: function () {
+      this.patienttable.length=0
       var storage = localStorage.getItem("id");
       this.params.user_id = storage;
       request({
@@ -520,6 +600,8 @@ export default {
           var m3 = 0;
           var m4 = 0;
           var m5 = 0;
+          var m6 = 0;
+
           for (var i = 0; i < this.ward_set.length; i++) {
             this.params1.ward_id = this.ward_set[i];
             request({
@@ -527,17 +609,25 @@ export default {
               method: "get",
               params: this.params1,
             }).then((res) => {
+              for (var i = 0; i < res.data.results.length; i++) {
+                this.data.push({
+                  Heart_rate: 75,
+                  Dbq: 123,
+                  Sbq:78,
+                  Body_temperature: 36.4,
+                  Blood_oxygen: 90,
+                  Breathing_value: 17,
+                });
+              }
               for (var m = 0; m < res.data.results.length; m++) {
                 this.patienttable.push(res.data.results[m]);
                 this.params2.patient_id = res.data.results[m].id;
-                this.params2.name = "温度计";
-                //console.log(this.params2,"444")
+                this.params2.name = "体温计";
                 request({
                   url: "/device/medicaleq/",
                   methog: "get",
                   params: this.params2,
                 }).then((res) => {
-                  console.log(res.data.results[0].id, "44444");
                   this.params4.device_id = res.data.results[0].id;
                   request({
                     url: "/device/medicaldata/",
@@ -549,7 +639,7 @@ export default {
                     m1++;
                   });
                 });
-                this.params2.name = "心电仪";
+                this.params2.name = "心跳测量器";
                 request({
                   url: "/device/medicaleq/",
                   methog: "get",
@@ -566,7 +656,7 @@ export default {
                     m2++;
                   });
                 });
-                this.params2.name = "血压计";
+                this.params2.name = "舒张压计";
                 request({
                   url: "/device/medicaleq/",
                   methog: "get",
@@ -578,12 +668,12 @@ export default {
                     method: "get",
                     params: this.params4,
                   }).then((res) => {
-                    this.data[m3].Blood_pressure =
+                    this.data[m3].Dbq =
                       res.data[res.data.length - 1].data;
                     m3++;
                   });
                 });
-                this.params2.name = "血氧计";
+                this.params2.name = "血氧机";
                 request({
                   url: "/device/medicaleq/",
                   methog: "get",
@@ -617,6 +707,23 @@ export default {
                     m5++;
                   });
                 });
+                this.params2.name = "收缩压计";
+                request({
+                  url: "/device/medicaleq/",
+                  methog: "get",
+                  params: this.params2,
+                }).then((res) => {
+                  this.params4.device_id = res.data.results[0].id;
+                  request({
+                    url: "/device/medicaldata/",
+                    method: "get",
+                    params: this.params4,
+                  }).then((res) => {
+                    this.data[m3].Sbq =
+                      res.data[res.data.length - 1].data;
+                    m6++;
+                  });
+                });
               }
             });
           }
@@ -624,6 +731,8 @@ export default {
       });
     },
     reverseInfo(patient_id, ward_id) {
+      this.patient_id=patient_id
+      this.ward_id=ward_id
       this.tableData.length = 0;
       //this.deviceInfoVisible = !this.deviceInfoVisible;
       this.params3.ward_id = ward_id;
@@ -633,7 +742,7 @@ export default {
         method: "get",
         params: this.params3,
       }).then((res) => {
-        for (var i = 0; i < res.data.count; i++) {
+        for (var i = 0; i < res.data.results.length; i++) {
           this.tableData.push(res.data.results[i]);
         }
         request({
@@ -645,14 +754,27 @@ export default {
             this.tableData.push(res.data.results[i]);
           }
         });
-      });
-      console.log(this.tableData);
-      console.log(1111);
-      console.log(this.deviceInfoVisible);
+      });     
       this.deviceInfoVisible = !this.deviceInfoVisible;
-      console.log(this.deviceInfoVisible);
     },
     reverseAdd(e) {
+      request({
+        url:"/device/medicaleq",
+        method:"get",
+        params:this.params6
+      }).then((res)=>{
+         this.table=res.data.results
+         request({
+           url:"/device/furnitureeq",
+           method:"get",
+           params:this.params6
+         }).then((res)=>{
+           for(var i=0;i<res.data.results.length;i++)
+           {
+             this.table.push(res.data.results[i])
+           }
+         })
+      })
       this.deviceInfoVisible = !this.deviceInfoVisible;
       this.deviceAddVisible = !this.deviceAddVisible;
     },
@@ -685,114 +807,125 @@ export default {
       });
       this.current_index = 0;
     },
-    confirmLight(){
-      var params={
-        data:this.tableData[this.current_index].data,
-        device_id:this.tableData[this.current_index].id
-      }
+    confirmLight() {
+      var params = {
+        data: this.tableData[this.current_index].data,
+        device_id: this.tableData[this.current_index].id,
+      };
       request({
         url: "/device/furnituredata/",
         method: "post",
         data: params,
-      }).then(()=>{
-         this.controlLightVisible = !this.controlLightVisible;
-         this.current_index = 0;
+      }).then(() => {
+        this.controlLightVisible = !this.controlLightVisible;
+        this.current_index = 0;
       });
-      
     },
     reverseLight(index) {
       this.current_index = index;
       // this.deviceInfoVisible = !this.deviceInfoVisible
-      var params={
-        device_id: this.tableData[this.current_index].id
-      }
+      var params = {
+        device_id: this.tableData[this.current_index].id,
+      };
       request({
-        url:"/device/furnituredata/",
-        method:"get",
-        params: params
-      }).then((res)=>{
-        console.log(res.data[res.data.length-1])
-        this.tableData[this.current_index].data=res.data[res.data.length-1].data
+        url: "/device/furnituredata/",
+        method: "get",
+        params: params,
+      }).then((res) => {
+        console.log(res.data[res.data.length - 1]);
+        this.tableData[this.current_index].data =
+          res.data[res.data.length - 1].data;
         this.controlLightVisible = !this.controlLightVisible;
-      })
-      
+      });
     },
     reverseAirCon(index) {
       this.current_index = index;
       // this.deviceInfoVisible = !this.deviceInfoVisible
-      var params={
-        device_id: this.tableData[this.current_index].id
-      }
+      var params = {
+        device_id: this.tableData[this.current_index].id,
+      };
       request({
-        url:"/device/furnituredata/",
-        method:"get",
-        params: params
-      }).then((res)=>{
-        console.log(res.data[res.data.length-1])
-        this.tableData[this.current_index].data=res.data[res.data.length-1].data
+        url: "/device/furnituredata/",
+        method: "get",
+        params: params,
+      }).then((res) => {
+        console.log(res.data[res.data.length - 1]);
+        this.tableData[this.current_index].data =
+          res.data[res.data.length - 1].data;
         this.controlAirConVisible = !this.controlAirConVisible;
-      })
+      });
     },
-    up(){
-      var params={
-        data:Number(this.tableData[this.current_index].data)+1+"",
-        device_id:this.tableData[this.current_index].id
-      }
+    up() {
+      var params = {
+        data: Number(this.tableData[this.current_index].data) + 1 + "",
+        device_id: this.tableData[this.current_index].id,
+      };
       request({
         url: "/device/furnituredata/",
         method: "post",
         data: params,
-      }).then(()=>{
+      }).then(() => {
         this.controlAirConVisible = !this.controlAirConVisible;
-        var params={
-        device_id: this.tableData[this.current_index].id
-      }
-      request({
-        url:"/device/furnituredata/",
-        method:"get",
-        params: params
-      }).then((res)=>{
-        console.log(res.data[res.data.length-1])
-        this.tableData[this.current_index].data=res.data[res.data.length-1].data
-        this.controlAirConVisible = !this.controlAirConVisible;
-      })
-      })
+        var params = {
+          device_id: this.tableData[this.current_index].id,
+        };
+        request({
+          url: "/device/furnituredata/",
+          method: "get",
+          params: params,
+        }).then((res) => {
+          console.log(res.data[res.data.length - 1]);
+          this.tableData[this.current_index].data =
+            res.data[res.data.length - 1].data;
+          this.controlAirConVisible = !this.controlAirConVisible;
+        });
+      });
     },
-    down(){
-      var params={
-        data:Number(this.tableData[this.current_index].data)-1+"",
-        device_id:this.tableData[this.current_index].id
-      }
+    down() {
+      var params = {
+        data: Number(this.tableData[this.current_index].data) - 1 + "",
+        device_id: this.tableData[this.current_index].id,
+      };
       request({
         url: "/device/furnituredata/",
         method: "post",
         data: params,
-      }).then(()=>{
+      }).then(() => {
         this.controlAirConVisible = !this.controlAirConVisible;
-        var params={
-        device_id: this.tableData[this.current_index].id
-      }
-      request({
-        url:"/device/furnituredata/",
-        method:"get",
-        params: params
-      }).then((res)=>{
-        console.log(res.data[res.data.length-1])
-        this.tableData[this.current_index].data=res.data[res.data.length-1].data
-        this.controlAirConVisible = !this.controlAirConVisible;
-      })
-      })
-    
+        var params = {
+          device_id: this.tableData[this.current_index].id,
+        };
+        request({
+          url: "/device/furnituredata/",
+          method: "get",
+          params: params,
+        }).then((res) => {
+          console.log(res.data[res.data.length - 1]);
+          this.tableData[this.current_index].data =
+            res.data[res.data.length - 1].data;
+          this.controlAirConVisible = !this.controlAirConVisible;
+        });
+      });
     },
-    judgmentType(deviceName, index) {
+    judgmentType(deviceName, index,on) {
       console.log(index);
       if (deviceName == "空调") {
-        this.reverseAirCon(index);
+        if(on){this.reverseAirCon(index);}
+        else{this.$message('请先开启空调再进行调节');}
       } else if (deviceName == "灯") {
-        this.reverseLight(index);
-      } else {
-        this.activeThreshold(index);
+        if(on){this.reverseLight(index);}
+        else{this.$message('请先开灯再进行控制');}
+      } else if (deviceName == "温度计"||deviceName == "湿度计"){
+        this.$message('该设备无法调节阈值');
       }
+      else {
+        if(!on){this.activeThreshold(index);}
+        else{this.$message('请先关闭设备再进行调节');}
+      }
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.page = val;
     },
   },
 };

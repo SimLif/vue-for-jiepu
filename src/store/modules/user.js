@@ -1,6 +1,7 @@
 import { login, logout, getInfo, getinfo2 } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
+import request from "../../utils/request.js";
 
 const getDefaultState = () => {
   return {
@@ -67,6 +68,28 @@ const actions = {
           //权限把控：角色处理
           let roles = []
           roles.push(data.identity)
+          if(data.identity=="relation")
+          {
+            request({
+              url:"/relation/relation/",
+              method:"get",
+              params:{
+                "user_id":data.id
+              }
+            }).then((res)=>{
+              if(res.data.results[0].patient_id==1)
+              {
+                return reject('请先让病人关联家属')
+              }
+              if(!roles || roles.lengty <= 0) {
+                reject('获取role失败')
+              }
+              commit('SET_ROLES',roles)
+              //commit('SET_RESULTS',data.results)
+              resolve(data)
+            })
+          }
+          else{
           // data.results[0].groups.forEach(item=>{
           //   roles.push(item.name)
           // })
@@ -76,7 +99,7 @@ const actions = {
           }
           commit('SET_ROLES',roles)
           //commit('SET_RESULTS',data.results)
-          resolve(data)})
+          resolve(data)}})
         // const { data } = response
         // console.log(data,'response...')
         // if (!data) {

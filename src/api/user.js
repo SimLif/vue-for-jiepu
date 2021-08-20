@@ -48,6 +48,7 @@ export function getinfo2(res){
   })
 }
 export function logout() {
+  // this.$router.push({ path: '/' });
   return request({
     url: '/vue-admin-template/user/logout',
     method: 'post'

@@ -54,7 +54,7 @@ const actions = {
       // 定义一个变量，用来存放可以访问的路由表
       let accessedRoutes
       // 判断当前用户是否包含admin
-      if (roles.includes('admin')) {
+      if (roles.includes('')) {
         // 如果包含就可以访问所有路由
         // 实现动态路由的思路关键点在这里，将ansyncRoutes改造成从数据库中获取
         accessedRoutes = asyncRoutes || []

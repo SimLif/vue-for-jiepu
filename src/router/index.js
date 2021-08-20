@@ -83,46 +83,46 @@ export const constantRoutes = [
  * 只有拥有权限的用户，才能显示的路由表
  */
  export const asyncRoutes = [
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: '用户管理',roles: ['admin'], icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: '用户管理', roles: ['admin'], icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree',  roles: ['admin'], icon: 'tree' }
-      },
-      {
-        path: 'test',
-        name: 'Test',
-        component: () => import('@/views/test/index'),
-        meta: { title: 'Test',  roles: ['admin'],icon: 'table' }
-      }
-    ]
-  },
+  // {
+  //   path: '/example',
+  //   component: Layout,
+  //   redirect: '/example/table',
+  //   name: 'Example',
+  //   meta: { title: '用户管理',roles: ['admin'], icon: 'el-icon-s-help' },
+  //   children: [
+  //     {
+  //       path: 'table',
+  //       name: 'Table',
+  //       component: () => import('@/views/table/index'),
+  //       meta: { title: '用户管理', roles: ['admin'], icon: 'table' }
+  //     },
+  //     {
+  //       path: 'tree',
+  //       name: 'Tree',
+  //       component: () => import('@/views/tree/index'),
+  //       meta: { title: 'Tree',  roles: ['admin'], icon: 'tree' }
+  //     },
+  //     {
+  //       path: 'test',
+  //       name: 'Test',
+  //       component: () => import('@/views/test/index'),
+  //       meta: { title: 'Test',  roles: ['admin'],icon: 'table' }
+  //     }
+  //   ]
+  // },
   
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: '历史数据', roles: ['admin'],icon: 'form' }
-      }
-    ]
-  },
+  // {
+  //   path: '/form',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'Form',
+  //       component: () => import('@/views/form/index'),
+  //       meta: { title: '历史数据', roles: ['admin'],icon: 'form' }
+  //     }
+  //   ]
+  // },
 
   // 患者
   // 菜单一： 身体监测
@@ -145,7 +145,7 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/patients-center/companions',
     name: 'Center',
-    meta: { title: '个人中心', icon: 'el-icon-s-help' },
+    meta: { title: '个人中心', roles: ['patient'],icon: 'el-icon-s-help' },
     children: [
       {
         path: 'companions',
@@ -153,18 +153,18 @@ export const constantRoutes = [
         component: () => import('@/views/patients/center/companions/index'),
         meta: { title: '我的陪伴',  roles: ['patient'], icon: 'tree' }
       },
-      {
-        path: 'medical',
-        name: 'Medical',
-        component: () => import('@/views/patients/center/medical/index'),
-        meta: { title: '我的医护',  roles: ['patient'],icon: 'table' }
-      },
-      {
-        path: 'realtion',
-        name: 'Relation',
-        component: () => import('@/views/patients/center/relation/index'),
-        meta: { title: '我的家属',  roles: ['patient'],icon: 'table' }
-      },
+      // {
+      //   path: 'medical',
+      //   name: 'Medical',
+      //   component: () => import('@/views/patients/center/medical/index'),
+      //   meta: { title: '我的医护',  roles: ['patient'],icon: 'table' }
+      // },
+      // {
+      //   path: 'realtion',
+      //   name: 'Relation',
+      //   component: () => import('@/views/patients/center/relation/index'),
+      //   meta: { title: '我的家属',  roles: ['patient'],icon: 'table' }
+      // },
       {
         path: 'information',
         name: 'Information',
@@ -188,30 +188,30 @@ export const constantRoutes = [
     ]
   },
 
-  {
-    path: '/notice',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Notice',
-        component: () => import('@/views/notice/index'),
-        meta: { title: '我的通知', roles: ['patient'],icon: 'form' }
-      }
-    ]
-  },
-  {
-    path: '/patients-visualization',
-    component: Layout,
-    children: [
-      {
-        path: 'visual',
-        name: 'Data_visualization',
-        component: () => import('@/views/patients/visualization/index'),
-        meta: { title: '数据可视化', roles: ['patient'],icon: 'form' }
-      }
-    ]
-  },
+  // {
+  //   path: '/notice',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'Notice',
+  //       component: () => import('@/views/notice/index'),
+  //       meta: { title: '我的通知', roles: ['patient'],icon: 'form' }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/patients-visualization',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'visual',
+  //       name: 'Data_visualization',
+  //       component: () => import('@/views/patients/visualization/index'),
+  //       meta: { title: '数据可视化', roles: ['patient'],icon: 'form' }
+  //     }
+  //   ]
+  // },
   //家属
   //菜单一：我的病人家属
   

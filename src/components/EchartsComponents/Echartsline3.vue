@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-    <div ref="main" style="width: 100%; height: 300px"></div>
+    <div ref="main3" style="width: 100%; height:70px"></div>
   </div>
 </template>
 
@@ -12,51 +12,41 @@ export default {
     return {
       //指定图表配置项和数据
       option: {
-
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            type: "cross",
-            label: {
-              backgroundColor: "#6a7985",
-            },
-          },
-          // grid: {
-          //   left: "3%",
-          //   right: "4%",
-          //   bottom: "3%",
-          //   containLabel: true,
-          // },
-        },
-
+            tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'cross',
+                            label: {
+                                backgroundColor: '#6a7985'
+                            }
+                        }
+                    },
+            visualMap: [{
+            show: false,
+            type: 'continuous',
+            seriesIndex: 0,
+            min: 0,
+            max: 300
+        }],
         xAxis: {
-          data: data_temp.map(function (item) {
+            type: 'category',
+            data: data_temp.map(function (item) {
                 return item[0];
             }),
-          type: 'category',
-          boundaryGap: false,
+            show:false
         },
-        yAxis: {},
-        series: [
-          {
-           
-            type: "line",
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
             data: data_temp.map(function (item) {
                 return item[1];
             }),
-            areaStyle:{},
-            // itemStyle:{
-            //   color:this.linedata.color
-            // }
-          },
-        ],
-        toolbox: {
-          feature: {
-            saveAsImage: {},
-          },
-        },
+            type: 'line',
+            showSymbol: false,
+        }]
       },
-    };
+    }
   },
   //当前组件参数定义
   props: ["linedata"],
@@ -82,10 +72,11 @@ export default {
     DrawLine: function () {
       //基于准备好的dom，初始化echarts实例
       //var myChart = echarts.init(document.getElementById('main'));
-      var myChart = echarts.init(this.$refs.main);
+      var myChart = echarts.init(this.$refs.main3);
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(this.option);
     },
+    
   },
 };
 </script>

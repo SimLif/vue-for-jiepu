@@ -136,7 +136,7 @@
               </div>
             </div>
             <div class="ui eight wide column">
-              <span style="font-size: 60%">单位： 照明度 </span>
+              <span style="font-size: 60%">单位： 流明度 </span>
             </div>
           </div>
         </div>

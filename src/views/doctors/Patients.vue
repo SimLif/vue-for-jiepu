@@ -67,19 +67,45 @@
             <div class="meta">病房{{ patienttable[t - 1].ward_id==2?101:102 }}</div>
             <div class="description">
               <div class="ui internally celled grid">
-                <div class="eight wide column" >心率
-                  <a class="ui blue image label">
-                    <i class="ui heart icon"></i>
-                    心率
-                    <div class="detail">{{data[t-1].Heart_rate}}次/分钟</div>
-                  </a>
+                <div class="eight wide column" >
+                  
+                  <a class="ui top attached green  label" style="text-align: center">心率</a>
+                  <div class="ui center aligned container" style="height:20px">
+                  {{data[t-1].Heart_rate}}PM
+                  </div>
+                  
                 </div>
-                <div class="eight wide column">血压{{data[t-1].Dbq}}/{{data[t-1].Sbq}}mmHg</div>
+                <div class="eight wide column">
+                  <a class="ui top attached teal label" style="text-align: center">血压</a>
+                  <div class="ui right aligned container">
+                  {{data[t-1].Dbq}}/{{data[t-1].Sbq}}mmHg
+                  </div>
+                
+                  
+                </div>
 
                 <div class="three column row">
-                  <div class="column">体温{{data[t-1].Body_temperature}}℃</div>
-                  <div class="column">血氧{{data[t-1].Blood_oxygen}}%</div>
-                  <div class="column">呼吸值{{data[t-1].Breathing_value}}次/分钟</div>
+                  <div class="column">
+                    
+                    <div class="ui center aligned container">
+                    {{data[t-1].Body_temperature}}℃
+                    </div>
+                    <a class="ui bottom attached teal label" style="text-align: center">体温</a>
+                  </div>
+                  <div class="column">
+                      
+                      <div class="ui center aligned container">
+                      {{data[t-1].Blood_oxygen}}%
+                      </div>
+                      <a class="ui bottom attached green label" style="text-align: center">血氧</a>    
+                  </div>
+                  <div class="column">
+                    
+                    <div class="ui center aligned container" style="height:50px">
+                      {{data[t-1].Breathing_value}}PM
+                    </div>
+                    <a class="ui bottom attached teal label" style="text-align: center">呼吸值</a>    
+                  </div>
                 </div>
               </div>
             </div>

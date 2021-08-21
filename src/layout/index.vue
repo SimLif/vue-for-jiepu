@@ -17,6 +17,11 @@ import ResizeMixin from './mixin/ResizeHandler'
 
 export default {
   name: 'Layout',
+  data () {
+    return {
+      refreshFlag:true,
+    }
+  },
   components: {
     Navbar,
     Sidebar,
@@ -46,7 +51,14 @@ export default {
     handleClickOutside() {
       this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
     }
-  }
+  },
+  mounted() {
+    if (location.href.indexOf("#reloaded") == -1) {
+               location.href = location.href + "#reloaded";
+                location.reload();
+      }
+  },
+  
 }
 </script>
 

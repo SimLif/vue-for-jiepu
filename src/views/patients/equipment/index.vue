@@ -136,16 +136,17 @@
               <span>{{ scope.row.id }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="设备名称" align="center" width="150">
+          <el-table-column label="设备名称" align="center" width="180">
+            <template slot-scope="scope">
+              <span>{{ scope.row.kind }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="设备类型" align="center" width="150">
             <template slot-scope="scope">
               <span>{{ scope.row.name }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="设备类型" align="center" width="100">
-            <template slot-scope="">
-              <span>医疗</span>
-            </template>
-          </el-table-column>
+          
           <el-table-column label="设备状态" align="center" width="100">
             <template slot-scope="scope">
               <span>{{ scope.row.on ? "开" : "关" }}</span>
@@ -221,6 +222,7 @@ export default {
       },
       params1: {
         ward_id: 0,
+        page_size:50
       },
       current_index: 0,
       searchtime:"",
@@ -403,6 +405,10 @@ export default {
         this.reverseAirCon(index);
       } else if (deviceName == "灯") {
         this.reverseLight(index);
+      }
+      else if(deviceName == "温度计"||deviceName == "湿度计"||deviceName == "窗帘")
+      {
+        this.$message('该设备无法调节阈值');
       }
       }
       if(!on){

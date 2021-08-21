@@ -243,6 +243,7 @@ export default {
         params: this.params,
       }).then((res) => {
         editform.append("doctor_id", res.data[0].id);
+        editform.append("ward_id", 2);
         request({
           url: "patient/patient/" + id + "/",
           method: "patch",

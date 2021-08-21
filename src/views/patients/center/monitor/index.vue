@@ -180,19 +180,19 @@ export default {
       console.log("------");
       var data = JSON.parse(frame.body)
       this.ecglinedata.xdata.push(data.time)
-      this.ecglinedata.ydata.push(data.ECG.data)
+      this.ecglinedata.ydata.push(data.ECG[17].data)
       this.bloodo2linedata.xdata.push(data.time)
-      this.bloodo2linedata.ydata.push(data.BloodO2.data)
+      this.bloodo2linedata.ydata.push(data.BloodO2[8].data)
       this.breathlinedata.xdata.push(data.time)
-      this.breathlinedata.ydata.push(data.Breath.data)
-      this.temper=data.temper.data
-      this.BloodO2=data.BloodO2.data
-      this.himidity=data.himidity.data
-      this.Dbp=data.Dbp.data
-      this.Sbp=data.Sbp.data
-      this.Heart=data.Heart.data
-      this.Breath=data.Breath.data
-      this.BodyTem=data.BodyTem.data
+      this.breathlinedata.ydata.push(data.Breath[9].data)
+      this.temper=data.temper[6].data
+      this.BloodO2=data.BloodO2[8].data
+      this.himidity=data.himidity[7].data
+      this.Dbp=data.Dbp[5].data
+      this.Sbp=data.Sbp[6].data
+      this.Heart=data.Heart[72].data
+      this.Breath=data.Breath[9].data
+      this.BodyTem=data.BodyTem[7].data
     },
     connect: function () {
       var headers = {

@@ -429,12 +429,12 @@ export default {
       params3: {
         ward_id: 0,
         //page,
-        //page_size
+        page_size:50
       },
       params5: {
         patient_id: 0,
         //page,
-        page_size:20
+        page_size:50
       },
       params6:{
         page: 1,
@@ -560,7 +560,7 @@ export default {
         on: !on1,
       };
       console.log(name, id);
-      if (name == "空调" || name == "灯") {
+      if (name == "空调" || name == "灯"||name=="温度计"||name=="湿度计"||name=="窗帘") {
         request({
           url: "/device/furnitureeq/" + id + "/",
           method: "patch",
@@ -570,7 +570,7 @@ export default {
           this.reverseInfo(this.params5.patient_id, this.params3.ward_id);
         });
       }
-      if (name != "空调" && name != "灯") {
+      if (name != "空调" && name != "灯"&& name != "湿度计"&& name != "温度计"&& name != "窗帘") {
         request({
           url: "/device/medicaleq/" + id + "/",
           method: "patch",
@@ -915,7 +915,7 @@ export default {
       } else if (deviceName == "灯") {
         if(on){this.reverseLight(index);}
         else{this.$message('请先开灯再进行控制');}
-      } else if (deviceName == "温度计"||deviceName == "湿度计"){
+      } else if (deviceName == "温度计"||deviceName == "湿度计"||deviceName == "窗帘"){
         this.$message('该设备无法调节阈值');
       }
       else {

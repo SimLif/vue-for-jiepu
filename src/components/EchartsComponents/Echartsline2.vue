@@ -59,8 +59,8 @@ export default {
       handler:function(){
         this.option.xAxis.data=this.linedata.xdata
         this.option.series[0].data=this.linedata.ydata,
-        console.log(this.linedata.xdata,"yyyy")
-        console.log(this.option.xAxis.data,"xxxx")
+        // console.log(this.linedata.ydata,"yyyy")
+        // console.log(this.option.xAxis.data,"xxxx")
         this.DrawLine();
       },
       deep:true

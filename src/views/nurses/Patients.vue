@@ -399,18 +399,19 @@
           </div>
           <div class="extra content">
             <div class="ui two buttons">
-             <div @click="addFocus(patienttable[t - 1].id)" v-if="!patienttable[t - 1].is_mark" class="ui basic green button">重点关注</div>
-              <div @click="cancelFocus(patienttable[t - 1].id)" v-else class="ui basic black button">取消关注</div>
-              <div class="ui basic red button"  @click="deletepatient(patienttable[t - 1].id)">移除病人</div>
-            </div>
-
-            <div
-              class="fluid ui basic blue button"
-              style="margin-top: 2%"
+             <!-- <div @click="addFocus(patienttable[t - 1].id)" v-if="!patienttable[t - 1].is_mark" class="ui basic green button">重点关注</div>
+              <div @click="cancelFocus(patienttable[t - 1].id)" v-else class="ui basic black button">取消关注</div> -->
+              <div
+              class=" ui basic blue button"
+              
               @click="reverseInfo(patienttable[t - 1].id,patienttable[t - 1].ward_id)"
             >
               设备管理
             </div>
+              <div class="ui basic red button"  @click="deletepatient(patienttable[t - 1].id)">移除病人</div>
+            </div>
+
+            
           </div>
         </div>
       </div>

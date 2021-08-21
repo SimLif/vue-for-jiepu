@@ -14,7 +14,8 @@
             style="width: 100%; font-size: 50px; padding: 15px"
           >
             <div class="floating ui green label">心率</div>
-            <p>{{Heart}}<label style="font-size: 20px">次/分钟</label></p>
+            <p v-if="Heart_alert==1" style="color:red">{{Heart}}<label  style="font-size: 20px;color:red">次/分钟</label></p>
+            <p v-else >{{Heart}}<label  style="font-size: 20px;">次/分钟</label></p>
           </div>
         </div>
       </div>
@@ -31,7 +32,8 @@
             style="width: 100%; font-size: 50px; padding: 15px"
           >
             <div class="floating ui green label">血氧</div>
-            <p>{{BloodO2}}<label style="font-size: 20px">%</label></p>
+            <p v-if="BloodO2_alert==1" style="color:red">{{BloodO2}}<label style="font-size: 20px;color:red">%</label></p>
+            <p v-else >{{BloodO2}}<label  style="font-size: 20px;">%</label></p>
           </div>
         </div>
       </div>
@@ -48,7 +50,8 @@
             style="width: 100%; font-size: 50px; padding: 15px"
           >
             <div class="floating ui green label">呼吸值</div>
-            <p>{{Breath}}<label style="font-size: 20px">次/分钟</label></p>
+            <p v-if="Breath_alert==1" style="color:red">{{Breath}}<label style="font-size: 20px;color:red">次/分钟</label></p>
+            <p v-else>{{Breath}}<label style="font-size: 20px">次/分钟</label></p>
           </div>
         </div>
       </div>
@@ -61,7 +64,8 @@
             style="width: 100%; font-size: 50px; padding: 15px"
           >
             <div class="floating ui green label">血压</div>
-            <p>{{Sbp}}/{{Dbp}}<label style="font-size: 20px">mmHg</label></p>
+            <p v-if="Sbp_alert==1||Dbp_alert==1" style="color:red">{{Sbp}}/{{Dbp}}<label style="font-size: 20px;color:red">mmHg</label></p>
+            <p v-else>{{Sbp}}/{{Dbp}}<label style="font-size: 20px">mmHg</label></p>
           </div>
         </div>
         <div class="four wide column">
@@ -70,7 +74,8 @@
             style="width: 100%; font-size: 50px; padding: 15px"
           >
             <div class="floating ui green label">体温</div>
-            <p>{{BodyTem}}<label style="font-size: 20px">℃</label></p>
+            <p v-if="BodyTem_alert==1" style="color:red">{{BodyTem}}<label style="font-size: 20px;color:red">℃</label></p>
+            <p v-else>{{BodyTem}}<label style="font-size: 20px">℃</label></p>
           </div>
         </div>
         <div class="two wide column">
@@ -79,7 +84,8 @@
             style="width: 100%; font-size: 50px; padding: 15px"
           >
             <div class="floating ui blue label">室温</div>
-            <p>{{temper}}<label style="font-size: 20px">℃</label></p>
+            <p v-if="temper_alert==1" style="color:red">{{temper}}<label style="font-size: 20px;color:red">℃</label></p>
+            <p v-else>{{temper}}<label style="font-size: 20px">℃</label></p>
           </div>
         </div>
         <div class="two wide column">
@@ -88,7 +94,8 @@
             style="width: 100%; font-size: 50px; padding: 15px"
           >
             <div class="floating ui blue label">湿度</div>
-            <p>{{himidity}}<label style="font-size: 20px">%</label></p>
+            <p v-if="himidity_alert==1" style="color:red">{{himidity}}<label style="font-size: 20px;color:red">%</label></p>
+            <p v-else>{{himidity}}<label style="font-size: 20px">%</label></p>
           </div>
         </div>
         <div class="two wide column">
@@ -137,6 +144,14 @@ export default {
   data() {
     return {
       client: Stomp.client(MQ_SERVICE),
+      temper_alert:0,
+      himidity_alert:0,
+      Dbp_alert:0,
+      Sbp_alert:0,
+      BodyTem_alert:0,
+      BloodO2_alert:0,
+      Heart_alert:0,
+      Breath_alert:0,
       ecglinedata: {
         xdata: [],
         ydata: [],
@@ -186,13 +201,21 @@ export default {
       this.breathlinedata.xdata.push(data.time)
       this.breathlinedata.ydata.push(data.Breath[9].data)
       this.temper=data.temper[6].data
+      this.temper_alert=data.temper[6].Alert
       this.BloodO2=data.BloodO2[8].data
+      this.BloodO2_alert=data.BloodO2[8].Alert
       this.himidity=data.himidity[7].data
+      this.himidity_alert=data.himidity[7].Alert
       this.Dbp=data.Dbp[5].data
+      this.Dbp_alert=data.Dbp[5].Alert
       this.Sbp=data.Sbp[6].data
+      this.Sbp_alert=data.Sbp[6].Alert
       this.Heart=data.Heart[72].data
+      this.Heart_alert=data.Heart[72].Alert
       this.Breath=data.Breath[9].data
+      this.Breath_alert=data.Breath[9].Alert
       this.BodyTem=data.BodyTem[7].data
+      this.BodyTem_alert=data.BodyTem[7].Alert
     },
     connect: function () {
       var headers = {

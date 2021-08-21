@@ -353,14 +353,14 @@
               <div class="ui internally celled grid">
                 <div class="eight wide column" >
                   
-                  <a class="ui top attached green  label" style="text-align: center">心率</a>
+                  <a class="ui top attached green  label" @click="reverseHistory(patienttable[t - 1].id,device1)" style="text-align: center">心率</a>
                   <div class="ui center aligned container" style="height:20px">
                   {{data[t-1].Heart_rate}}PM
                   </div>
                   
                 </div>
                 <div class="eight wide column">
-                  <a class="ui top attached teal label" style="text-align: center">血压</a>
+                  <a class="ui top attached teal label" @click="reverseHistory(patienttable[t - 1].id,device2)" style="text-align: center">血压</a>
                   <div class="ui right aligned container">
                   {{data[t-1].Dbq}}/{{data[t-1].Sbq}}mmHg
                   </div>
@@ -374,21 +374,21 @@
                     <div class="ui center aligned container">
                     {{data[t-1].Body_temperature}}℃
                     </div>
-                    <a class="ui bottom attached teal label" style="text-align: center">体温</a>
+                    <a class="ui bottom attached teal label" @click="reverseHistory(patienttable[t - 1].id,device3)" style="text-align: center">体温</a>
                   </div>
                   <div class="column">
                       
                       <div class="ui center aligned container">
                       {{data[t-1].Blood_oxygen}}%
                       </div>
-                      <a class="ui bottom attached green label" style="text-align: center">血氧</a>    
+                      <a class="ui bottom attached green label" @click="reverseHistory(patienttable[t - 1].id,device4)" style="text-align: center">血氧</a>    
                   </div>
                   <div class="column">
                     
                     <div class="ui center aligned container" style="height:50px">
                       {{data[t-1].Breathing_value}}PM
                     </div>
-                    <a class="ui bottom attached teal label" style="text-align: center">呼吸值</a>    
+                    <a class="ui bottom attached teal label" @click="reverseHistory(patienttable[t - 1].id,device5)" style="text-align: center">呼吸值</a>    
                   </div>
                 </div>
               </div>
@@ -422,20 +422,63 @@
       <el-pagination background layout="prev, pager, next"  :total=1>
       </el-pagination>
     </div>
+     <!-- 历史数据对话框 -->
+    <el-dialog :visible.sync="controlHistoryVisible" width="60%">
+      <!-- <span>这是一段信息</span> -->
+      <div class="ui grid">
+        <div class="four wide column">
+          <h1 class="ui header">历史数据</h1>
+        </div>
+        <div class="twelve wide column">
+          <div class="ui right aligned container">
+            <div id="search">
+              <el-date-picker
+                v-model="searchtime"
+                type="datetimerange"
+                :picker-options="pickerOptions"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                align="right"
+              >
+              </el-date-picker>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui divider"></div>
+      <echartsline :linedata="tlinedata"></echartsline>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import request from "../../utils/request.js";
 import { mapGetters } from "vuex";
+import echartsline from "@/components/EchartsComponents/Echartsline.vue";
 // import $ from "jquery";
 import "@/assets/semantic-ui/semantic.min.js";
 import "@/assets/semantic-ui/semantic.min.css";
 
 export default {
   name: "Dashboard",
+  components: {
+    echartsline,
+  },
   data() {
     return {
+      device1:"心跳测量器",
+      device2:"收缩压计",
+      device3:"体温计",
+      device4:"血氧机",
+      device5:"呼吸机",
+      searchtime:"",
+      controlHistoryVisible: false,
+       tlinedata: {
+        xdata: [],
+        ydata: [],
+      },
       ward_id:0,
       patient_id:0,
       data: [
@@ -505,6 +548,13 @@ export default {
     this.fetchPatientData();
   },
   watch: {
+     searchtime:{
+      handler:function(){
+        this.controlHistoryVisible = !this.controlHistoryVisible;
+        this.reverseHistory();
+      },
+      deep:true
+    },
     tableData: {
       handler: function (newparams, oldparams) {
         //时刻监听params数据的变化，一旦发生变化自动调用该方法
@@ -527,6 +577,38 @@ export default {
   },
 
   methods: {
+     reverseHistory(id,name) {
+      // this.deviceInfoVisible = !this.deviceInfoVisible
+      console.log("1111111111")
+      this.controlHistoryVisible = !this.controlHistoryVisible;
+      this.tlinedata.xdata = [];
+      this.tlinedata.ydata = [];
+      request({
+        url:"/device/medicaleq/",
+        method:"get",
+        params:{
+          "name":name,
+          "patient_id":id,
+        }
+      }).then((res)=>{
+          request({
+        url: "device/medicaldata",
+        method: "get",
+        params: {"start_time":this.searchtime[0],"end_time":this.searchtime[1],"device_id":res.data.results[0].id}
+      })
+        .then((res) => {
+          // console.log(res,"tempdata")
+          res.data.forEach((item) => {
+            this.tlinedata.xdata.push(item.addtime);
+            this.tlinedata.ydata.push(item.data);
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      })
+     
+    },
     deletepatient(id){
       request({
         url:"/patient/patient/"+id+"/",

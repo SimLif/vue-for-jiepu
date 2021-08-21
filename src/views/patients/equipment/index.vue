@@ -356,6 +356,7 @@ export default {
         method:"get",
         params: params
       }).then((res)=>{
+        console.log(res.data)
         console.log(res.data[res.data.length-1])
         this.tableData[this.current_index].data=res.data[res.data.length-1].data
         this.controlLightVisible = !this.controlLightVisible;

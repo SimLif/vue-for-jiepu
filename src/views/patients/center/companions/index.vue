@@ -158,10 +158,10 @@
         <div class="eight wide column">
           <div class="ui right aligned container">
             <div class="ui action input">
-              <input type="text" placeholder="输入ID搜索添加家属..." />
+              <!-- <input type="text" placeholder="输入ID搜索添加家属..." />
               <button class="ui icon button">
                 <i class="search icon"></i>
-              </button>
+              </button> -->
             </div>
           </div>
         </div>
@@ -170,7 +170,7 @@
       <div id="datatable">
         <el-table
           border
-          :data="tableData"
+          :data="tableData.slice(10 * (page - 1), 10 + 10 * (page - 1))"
           style="width: 100%; margin-top: 15px"
         >
           <el-table-column label="序号" width="50">
@@ -215,8 +215,14 @@
         class="ui centered grid"
         style="margin-top: 3%; margin-bottom: 1%; overflow: auto"
       >
-        <!-- <el-pagination background layout="prev, pager, next" :total="1000">
-        </el-pagination> -->
+       <el-pagination
+          background
+          layout="prev, pager, next"
+          @current-change="handleCurrentChange"
+          :current-page="page"
+          :total="tableData.length"
+        >
+        </el-pagination>
       </div>
     </el-dialog>
 
@@ -640,7 +646,9 @@ export default {
       showDoctorInfo: false,
       showNurseInfo: false,
       showRelationInfo: false,
-      input: ''
+      input: '',
+      count: 0,
+      page: 1,
     };
   },
   computed: {
@@ -661,6 +669,10 @@ export default {
 
   },
   methods: {
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.page = val;
+    },
     addrela(id){
       var storage = localStorage.getItem("id");
       var params = {
@@ -711,7 +723,7 @@ export default {
       var params={
         patient_id:1,
         page:1,
-        page_size:10,
+        page_size:20,
       }
       request({
         url:"/relation/relation/",

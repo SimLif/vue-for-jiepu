@@ -342,6 +342,9 @@
 
       <div class="ui four stackable cards">
         <div v-for="t in patienttable.length" class="ui centered card" :key="t.index">
+          <a v-if="patienttable[t - 1].is_mark" class="ui orange right corner label">
+            <i class="star icon"></i>
+          </a>
           <div class="content">
             <!-- <img
               class="right floated mini ui image"
@@ -396,7 +399,8 @@
           </div>
           <div class="extra content">
             <div class="ui two buttons">
-              <div class="ui basic green button">重点关注</div>
+             <div @click="addFocus(patienttable[t - 1].id)" v-if="!patienttable[t - 1].is_mark" class="ui basic green button">重点关注</div>
+              <div @click="cancelFocus(patienttable[t - 1].id)" v-else class="ui basic black button">取消关注</div>
               <div class="ui basic red button"  @click="deletepatient(patienttable[t - 1].id)">移除病人</div>
             </div>
 
@@ -479,6 +483,7 @@ export default {
         xdata: [],
         ydata: [],
       },
+      ifFocus: false,
       ward_id:0,
       patient_id:0,
       data: [
@@ -577,6 +582,84 @@ export default {
   },
 
   methods: {
+    // addFocus(id) {
+    //   request({
+    //     url:"/patient/patient/"+id+"/",
+    //     method:"patch",
+    //     data:{
+    //       "is_mark":true
+    //     }
+    //   }).then(()=>{
+    //     this.patienttable.length=0
+    //   var storage = localStorage.getItem("id");
+    //   this.params.user_id = storage;
+    //   request({
+    //     url: "/nurse/nurse/",
+    //     method: "get",
+    //     params: this.params,
+    //   }).then((res) => {
+    //     request({
+    //       url: "/nurse/nurse/" + res.data[0].id + "/",
+    //       method: "get",
+    //     }).then((res) => {
+    //       this.ward_set = res.data.ward_set;
+    //       var m1 = 0;
+    //       var m2 = 0;
+    //       var m3 = 0;
+    //       var m4 = 0;
+    //       var m5 = 0;
+    //       var m6 = 0;
+
+    //       for (var i = 0; i < this.ward_set.length; i++) {
+    //         this.params1.ward_id = this.ward_set[i];
+    //         request({
+    //           url: "/patient/patient/",
+    //           method: "get",
+    //           params: this.params1,
+    //         }).then((res) => {
+    //           for (var m = 0; m < res.data.results.length; m++) {
+    //             this.patienttable.push(res.data.results[m]);}})}})})
+    //   })
+    // },
+    // cancelFocus(id) {
+    //   request({
+    //     url:"/patient/patient/"+id+"/",
+    //     method:"patch",
+    //     data:{
+    //       "is_mark":false
+    //     }
+    //   }).then(()=>{
+    //      this.patienttable.length=0
+    //   var storage = localStorage.getItem("id");
+    //   this.params.user_id = storage;
+    //   request({
+    //     url: "/nurse/nurse/",
+    //     method: "get",
+    //     params: this.params,
+    //   }).then((res) => {
+    //     request({
+    //       url: "/nurse/nurse/" + res.data[0].id + "/",
+    //       method: "get",
+    //     }).then((res) => {
+    //       this.ward_set = res.data.ward_set;
+    //       var m1 = 0;
+    //       var m2 = 0;
+    //       var m3 = 0;
+    //       var m4 = 0;
+    //       var m5 = 0;
+    //       var m6 = 0;
+
+    //       for (var i = 0; i < this.ward_set.length; i++) {
+    //         this.params1.ward_id = this.ward_set[i];
+    //         request({
+    //           url: "/patient/patient/",
+    //           method: "get",
+    //           params: this.params1,
+    //         }).then((res) => {
+    //           for (var m = 0; m < res.data.results.length; m++) {
+    //             this.patienttable.push(res.data.results[m]);}})}})})
+    //   })
+    // },
      reverseHistory(id,name) {
       // this.deviceInfoVisible = !this.deviceInfoVisible
       console.log("1111111111")
@@ -607,7 +690,9 @@ export default {
           console.log(error);
         });
       })
-     
+     },
+    reverseFocus() {
+      this.ifFocus = !this.ifFocus;
     },
     deletepatient(id){
       request({

@@ -58,6 +58,9 @@
     <div class="ui container">
       <div class="ui four stackable cards">
         <div v-for="t in count " class="ui centered card" :key="t.index">
+          <a v-if="patienttable[t - 1].is_mark" class="ui orange right corner label">
+            <i class="star icon"></i>
+          </a>
           <div class="content">
             <!-- <img
               class="right floated mini ui image"
@@ -112,7 +115,8 @@
           </div>
           <div class="extra content">
             <div class="ui three buttons">
-              <div class="ui basic green button">重点关注</div>
+              <div @click="addFocus(patienttable[t - 1].id)" v-if="!patienttable[t - 1].is_mark" class="ui basic green button">重点关注</div>
+              <div @click="cancelFocus(patienttable[t - 1].id)" v-else class="ui basic black button">取消关注</div>
               <div class="ui basic red button" @click="deletepatient(patienttable[t-1].id)">移除病人</div>
             </div>
           </div>
@@ -189,6 +193,7 @@ export default {
         xdata: [],
         ydata: [],
       },
+      ifFocus: false,
       tableData: [
         {
           id: "",
@@ -307,7 +312,60 @@ export default {
           console.log(error);
         });
       })
-     
+    },
+    addFocus(id) {
+      request({
+        url:"/patient/patient/"+id+"/",
+        method:"patch",
+        data:{
+          "is_mark":true
+        }
+      }).then(()=>{
+        var storage = localStorage.getItem("id");
+      this.params.user_id = storage;
+      var form = new FormData();
+      request({
+        url: "/doctor/doctor/",
+        method: "get",
+        params: this.params,
+      }).then((res) => {
+        this.params1.doctor_id = res.data[0].id;
+        request({
+          url: "/patient/patient/",
+          method: "get",
+          params: this.params1,
+        }).then((res) => {
+          this.count = res.data.count;
+          this.patienttable = res.data.results;
+        })})
+      })
+    },
+    cancelFocus(id) {
+      request({
+        url:"/patient/patient/"+id+"/",
+        method:"patch",
+        data:{
+          "is_mark":false
+        }
+      }).then(()=>{
+         var storage = localStorage.getItem("id");
+      this.params.user_id = storage;
+      var form = new FormData();
+      request({
+        url: "/doctor/doctor/",
+        method: "get",
+        params: this.params,
+      }).then((res) => {
+        this.params1.doctor_id = res.data[0].id;
+        request({
+          url: "/patient/patient/",
+          method: "get",
+          params: this.params1,
+        }).then((res) => {
+          this.count = res.data.count;
+          this.patienttable = res.data.results;
+        })})
+      })
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);

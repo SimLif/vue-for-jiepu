@@ -38,9 +38,9 @@
                 <option value="female">女性</option>
               </select>
 
-              <label>年龄</label>
-              <div v-show="!ifEdit" class="ui vertical right aligned segment" style="padding:1% 0%">{{infomation.age}}</div>
-              <input v-show="ifEdit" type="number" name="age" v-model="infomation.age">
+              <label>生日</label>
+              <div v-show="!ifEdit" class="ui vertical right aligned segment" style="padding:1% 0%">{{infomation.birthday}}</div>
+              <input v-show="ifEdit" type="text" name="age" v-model="infomation.birthday">
             </div>
           </div>
 
@@ -80,6 +80,20 @@
             </div>
           </div>
         </div>
+       
+        <div class="two fields">
+          <div class="field">
+              <label>关系</label>
+              <input v-show="ifEdit" type="text" name="name" v-model="infomation.relationship">
+              <div v-show="!ifEdit" class="ui vertical right aligned segment" style="padding:1% 0%">{{infomation.relationship}}</div>
+          
+          </div>
+          <div class="field">
+              <label>是否为紧急联系人</label>
+              <input v-show="ifEdit" type="text" name="name" v-model="infomation.first_contact" :disabled="true">
+              <div v-show="!ifEdit" class="ui vertical right aligned segment" style="padding:1% 0%">{{infomation.first_contact?"是":"否"}}</div>
+          </div>
+        </div> 
         <div class="two fields">
           <div class="field">
             <label>电话号码</label>
@@ -91,23 +105,6 @@
             <div v-show="!ifEdit" class="ui segment">{{infomation.email}}</div>
             <input v-show="ifEdit" type="text" name="email" v-model="infomation.email">           
           </div>
-        </div>
-        <div class="two fields">
-          <div class="field">
-            <label>部门</label>
-            <div v-show="!ifEdit" class="ui segment">{{infomation.department}}</div>
-            <input v-show="ifEdit" type="text" name="department" v-model="infomation.department">
-          </div>
-          <div class="field">
-            <label>职称</label>
-            <div v-show="!ifEdit" class="ui segment">{{infomation.title}}</div>
-            <input v-show="ifEdit" type="text" name="title" v-model="infomation.title">           
-          </div>
-        </div> 
-        <div class="field">
-          <label>简介</label>  
-            <div v-show="!ifEdit" class="ui stacked segment">{{infomation.introduction}}</div>
-            <el-input v-show="ifEdit" type="textarea" v-model="infomation.introduction"></el-input>   
         </div>
       </form>
 
@@ -133,15 +130,11 @@ export default {
       infomation : {
         name : "李凤",
         sex : 0,
-        age : 56,
+        birthday:"2000-1-1",
         phonenumber : "1231312312",
         email : "12312312@11.com",
-        title : "院长",
-        department : "住院部",
-        introduction : "Pellentesque habitant morbi tristique senectus et netus et \
-        malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, \
-        ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas\
-         semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo."
+        relationship:"",
+        first_contact:"",
 
       },
       avatar:"@/assets/images/kristy.png",
@@ -176,23 +169,20 @@ export default {
       var storage = localStorage.getItem("id");
       this.params.user_id = storage;
       request({
-        url: "/nurse/nurse/",
+        url: "/relation/relation/",
         method: "get",
         params: this.params,
       }).then((res)=>{
         request({
-          url:"/nurse/nurse/"+res.data[0].id+"/",
+          url:"/relation/relation/"+res.data.results[0].id+"/",
           method:"get",
         }).then((res)=>{
-          var strBirthdayArr=res.data.birthday.split("-"); 
-          var birthYear = strBirthdayArr[0]; 
           this.infomation.name=res.data.name
           this.infomation.sex=res.data.sex
-          this.infomation.age=2021-birthYear
+          this.infomation.birthday=res.data.birthday
           this.infomation.phonenumber=res.data.phonenumber
-          this.infomation.title=res.data.title
-          this.infomation.department=res.data.department
-          this.infomation.introduction=res.data.introduction
+          this.infomation.relationship=res.data.relationship
+          this.infomation.first_contact=res.data.first_contact
         })
       })
       request({
@@ -229,12 +219,12 @@ export default {
       var storage = localStorage.getItem("id");
       this.params.user_id = storage;
       request({
-        url: "/nurse/nurse/",
+        url: "/relation/relation/",
         method: "get",
         params: this.params,
       }).then((res)=>{
         request({
-          url:"/nurse/nurse/"+res.data[0].id+"/",
+          url:"/relation/relation/"+res.data.results[0 ].id+"/",
           method:"patch",
           data:this.infomation
         }).then(()=>{

@@ -30,7 +30,6 @@ router.beforeEach(async(to, from, next) => {
           // 获取roles
           //const { roles } = await store.dispatch('user/getInfo')
           var results = await store.dispatch('user/getInfo')
-          console.log(typeof results.id,'666')
           window.localStorage.setItem("id",results.id)
           let roles = []
           roles.push(results.identity)

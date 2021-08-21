@@ -4,7 +4,7 @@
     <!--1.搜索栏-->
     <div class="ui container">
     <div id="search">
-      <el-input
+      <!-- <el-input
         style="width: 300px; margin-right: 10px"
         placeholder="请输入关键字"
         v-model="input"
@@ -19,7 +19,7 @@
       >
         <el-option label="冻结" value="0"></el-option>
         <el-option label="活跃" value="1"></el-option>
-      </el-select>
+      </el-select> -->
       <el-select v-model="params.identity" clearable placeholder="用户类型">
         <el-option label="超级管理员" value="admin"></el-option>
         <el-option label="医生" value="doctor"></el-option>
@@ -301,7 +301,7 @@ export default {
       tableData: [],
       params: {
         page: 1,
-        page_size: 5,
+        page_size: 10,
       },
       params_edit: {},
       total_number: 0,
@@ -420,7 +420,7 @@ export default {
           this.adduserform.user_id = res.data.id;
           // emailform.user_id=this.adduserform.user_id
           emailform.append("user_id", this.adduserform.user_id);
-          console.log(emailform[0].user_id,"444")
+          console.log(emailform[0],"444")
           request({
             url: "/email/",
             method: "post",

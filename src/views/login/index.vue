@@ -112,9 +112,7 @@
 //import store from './store'
 import { validUsername } from "@/utils/validate";
 import request from "../../utils/request.js";
-
-
-
+import store from '../../store'
 export default {
   name: "Login",
   data() {
@@ -181,6 +179,7 @@ export default {
           this.$store
             .dispatch("user/login", this.loginForm)
             .then(() => {
+              
               this.$router.push({ path: this.redirect || "/" });
               this.loading = false;
             })

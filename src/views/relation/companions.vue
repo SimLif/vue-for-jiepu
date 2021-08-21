@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="ui text container">
-      <h1 class="ui header">我的医护&紧急联系人</h1>
+      <h1 class="ui header">ta的医护&紧急联系人</h1>
       <div class="ui divider"></div>
       <div class="ui three stackable special cards">
         <!-- 我的医生 -->
@@ -18,7 +18,7 @@
             </div>
 
             <img :src="avatar" />
-            <div class="ui top left attached teal label">我的医生</div>
+            <div class="ui top left attached teal label">ta的医生</div>
           </div>
           <div class="content">
             <a class="header">{{doctorInfo.name}}</a>
@@ -47,7 +47,7 @@
             </div>
 
             <img :src="avatar1" />
-            <div class="ui top left attached olive label">我的护士</div>
+            <div class="ui top left attached olive label">ta的护士</div>
           </div>
           <div class="content">
             <a class="header">{{nurseInfo.name}}</a>
@@ -92,9 +92,9 @@
               <button class="ui icon orange button">
                 <i class="bell outline icon"></i>
               </button>
-              <button @click="cancelFisrtConcat" class="ui icon button">
-                <i class="user times icon"></i>
-              </button>
+              <!-- <button @click="cancelFisrtConcat" class="ui icon button"> -->
+                <!-- <i class="user times icon"></i>
+              </button> -->
             </div>
           </div>
         </div>
@@ -102,13 +102,13 @@
 
       <div class="ui grid" style="margin-top: 5%">
         <div class="eight wide column">
-          <h1 class="ui header">我的家属</h1>
+          <h1 class="ui header">ta的家属</h1>
         </div>
         <div class="eight wide column">
           <div class="ui right aligned container">
-            <button class="ui primary button" @click="reverseAdd">
+            <!-- <button class="ui primary button" @click="reverseAdd">
               添加家属
-            </button>
+            </button> -->
           </div>
         </div>
       </div>
@@ -117,7 +117,7 @@
         <div class="ui card" v-for="t in relationcount" :key="t.id">
           <div class="content">
             <a class="ui red ribbon label">{{relationTable[t-1].relationship}}</a>
-            <i
+            <!-- <i
               v-show="!haveFistConcat"
               @click="handlefirst(t-1)"
               class="right floated star icon"
@@ -126,7 +126,7 @@
               v-show="relationTable[t-1].first_contact"
               @click="handlefirst(t-1)"
               class="right floated yellow star icon"
-            ></i>
+            ></i> -->
             <div class="center aligned header">{{relationTable[t-1].name}} </div>
             <!-- <div class="ui container segment">
                 
@@ -140,7 +140,7 @@
               >
                 查看详情
               </div>
-              <div class="ui basic red button" @click="deleteRelation(t-1)">移除家属</div>
+              <!-- <div class="ui basic red button" @click="deleteRelation(t-1)">移除家属</div> -->
             </div>
           </div>
         </div>
@@ -579,7 +579,7 @@
 import { mapGetters } from "vuex";
 import "@/assets/semantic-ui/semantic.min.js";
 import "@/assets/semantic-ui/semantic.min.css";
-import request from "../../../../utils/request.js";
+import request from "../../utils/request.js";
 
 export default {
   name: "Dashboard",
@@ -781,15 +781,13 @@ export default {
       var params1 ={
         patient_id:0
       }
-      console.log("222");
-
-      //console.log("111")
+   
       request({
-        url: "/patient/patient/",
+        url: "/relation/relation/",
         method: "get",
         params: params,
       }).then((res) => {
-        params1.patient_id=res.data.results[0].id
+        params1.patient_id=res.data.results[0].patient_id
         request({
           url:"/relation/relation/",
           method:"get",
@@ -820,7 +818,7 @@ export default {
        })
         })
         request({
-          url: "/patient/patient/" + res.data.results[0].id + "/",
+          url: "/patient/patient/" + res.data.results[0].patient_id + "/",
           method: "get",
         }).then((res) => {
           request({

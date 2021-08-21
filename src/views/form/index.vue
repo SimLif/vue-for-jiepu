@@ -17,8 +17,8 @@
     <!-- 使用自定义组件3，以标签形式使用自定义组件 -->
     <echartsline :linedata="tlinedata"></echartsline>
     <echartsline :linedata="slinedata"></echartsline>
-    <echartsline></echartsline>
-    <echartsline></echartsline>
+    <!-- <echartsline></echartsline> -->
+    <!-- <echartsline></echartsline> -->
   </div>
 </template>
 

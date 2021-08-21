@@ -115,7 +115,7 @@
       </el-table>
     </div>
     <!--3.分页-->
-    <div id="page" style="margin-top:1%;">
+    <div id="page" style="margin-top:2%;margin-bottom:5%">
       <el-pagination
         background
         style="float: right;"

@@ -5,7 +5,7 @@
         <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
           <div class="col mx-auto">
             <div class="mb-4 text-center">
-              <img src="@/assets/images/logo-img.png" width="180" alt="" />
+              <img src="@/assets/images/logo-img.png" width="280" alt="" />
             </div>
             <div class="card">
               <div class="card-body">
@@ -22,10 +22,10 @@
                   <div class="form-body">
                     <el-form class="row g-3">
                       <div class="col-md-6">
-                        <el-radio  v-model="radio1" label="1" border >我是医生/护士</el-radio>
+                        <el-radio  v-model="radio1" label="1" border style="width:100%" >我是医生/护士</el-radio>
                       </div>
                       <div class="col-md-6" style=" float: right">
-                        <el-radio v-model="radio1" label="2" border style="margin-left:10px">我是病人/家属</el-radio>
+                        <el-radio v-model="radio1" label="2" border style="width:100%">我是病人/家属</el-radio>
                       </div>
                       <div class="col-12">
                         <label v-show="radio1=='1'" for="inputPass" class="form-label">请输入密码</label>

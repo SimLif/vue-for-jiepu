@@ -11,8 +11,9 @@
         :active-text-color="variables.menuActiveText"
         :collapse-transition="false"
         mode="vertical"
+        class="ui secondary vertical menu"
       >
-        <sidebar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
+        <sidebar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path"/>
       </el-menu>
     </el-scrollbar>
   </div>
@@ -23,6 +24,8 @@ import { mapGetters } from 'vuex'
 import Logo from './Logo'
 import SidebarItem from './SidebarItem'
 import variables from '@/styles/variables.scss'
+// import "@/assets/semantic-ui/semantic.min.js";
+import "@/assets/semantic-ui/semantic.min.css";
 
 export default {
   components: { SidebarItem, Logo },
@@ -54,3 +57,5 @@ export default {
   }
 }
 </script>
+
+

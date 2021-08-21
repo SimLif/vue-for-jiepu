@@ -5,7 +5,7 @@
         <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
           <div class="col mx-auto">
             <div class="mb-4 text-center">
-              <img src="@/assets/images/logo-img.png" width="180" alt="" />
+              <img src="@/assets/images/logo-img.png" width="300" alt="" />
             </div>
             <div class="card">
               <div class="card-body">
@@ -68,8 +68,8 @@
 
                       </div>
                       <div class="col-md-6" style="margin-top: -10px">
-                        
-                        <img src="./images/yanzhengma.png" style="margin-top:10%;margin-left:30%" />
+                        <random-code></random-code>
+                        <!-- <img src="./images/yanzhengma.png" style="margin-top:10%;margin-left:30%" /> -->
                       </div>
                       
                       <div class="col-md-6">
@@ -112,9 +112,13 @@
 //import store from './store'
 import { validUsername } from "@/utils/validate";
 import request from "../../utils/request.js";
+import RandomCode from "./RandomCode.vue"
 import store from '../../store'
 export default {
   name: "Login",
+  components:{
+    RandomCode,
+  },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -132,7 +136,7 @@ export default {
     };
     return {
       loginForm: {
-        username: "admin",
+        username: "patient",
         password: "123456",
       },
       loginRules: {

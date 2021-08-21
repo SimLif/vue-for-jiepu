@@ -6,6 +6,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import "@/assets/semantic-ui/semantic.min.js";
+import "@/assets/semantic-ui/semantic.min.css";
 
 export default {
   name: 'Dashboard',

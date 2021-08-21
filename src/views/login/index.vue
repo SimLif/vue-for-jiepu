@@ -5,7 +5,7 @@
         <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
           <div class="col mx-auto">
             <div class="mb-4 text-center">
-              <img src="@/assets/images/logo-img.png" width="180" alt="" />
+              <img src="@/assets/images/logo-img.png" width="300" alt="" />
             </div>
             <div class="card">
               <div class="card-body">
@@ -132,7 +132,7 @@ export default {
     };
     return {
       loginForm: {
-        username: "admin",
+        username: "patient",
         password: "123456",
       },
       loginRules: {

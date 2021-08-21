@@ -314,6 +314,7 @@ export default {
                 method: "post",
                 data: this.AdduserForm,
               }).then((res)=>{
+                window.localStorage.setItem("idd",res.data.id)
                 request({
                   url:"/patient/patient/"+res.data.id+"/",
                   method:"patch",
@@ -323,6 +324,7 @@ export default {
                   }
                 }).then(()=>{
                   this.$store.dispatch('user/logout')
+                   this.$router.push({ path: "/register_succ" });
                 })
               });
              
@@ -342,11 +344,12 @@ export default {
                   }
                 }).then(()=>{
                   this.$store.dispatch('user/logout')
+                  this.$router.push({ path: "/register_succ" });
                 })
               });
             }
           });
-          this.$router.push({ path: "/register_succ" });
+          //this.$router.push({ path: "/register_succ" });
         })
         } else {
           console.log("error submit!!");

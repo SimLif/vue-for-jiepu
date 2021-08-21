@@ -11,7 +11,7 @@
               <div class="card-body">
                 <div class="border p-4 rounded">
                   <div class="text-center">
-                    <h3 class="">-^0^- 注册成功！！！</h3>
+                    <h3 class="">-^0^- 注册成功！请记住您的id是{{id}}。</h3>
                     
                   </div>
                   
@@ -46,7 +46,18 @@
 <script>
 
 export default {
+  data(){
+    return{
+      id:0,
+    }
+  },
+   created() {
+    this.fetchDoctorData();
+  },
   methods: {
+    fetchDoctorData: function () {
+      this.id = localStorage.getItem("idd");
+    },
     jump_login(){
       this.$router.push({ path: '/login' })
     }

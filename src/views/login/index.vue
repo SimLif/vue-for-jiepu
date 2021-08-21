@@ -1,6 +1,14 @@
 <template>
   <div class="wrapper">
-    <div class="section-authentication-signin d-flex align-items-center justify-content-center my-5 my-lg-0">
+    <div
+      class="
+        section-authentication-signin
+        d-flex
+        align-items-center
+        justify-content-center
+        my-5 my-lg-0
+      "
+    >
       <div class="container-fluid">
         <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
           <div class="col mx-auto">
@@ -12,82 +20,132 @@
                 <div class="border p-4 rounded">
                   <div class="text-center">
                     <h3 class="">登录</h3>
-                    <p>还没有账号吗? <a href="" @click.prevent="handleRegister">点击这里注册</a>
+                    <p>
+                      还没有账号吗?
+                      <a href="" @click.prevent="handleRegister"
+                        >点击这里注册</a
+                      >
                     </p>
                   </div>
-                  
-                  <div class="login-separater text-center mb-4"> 
-                    <hr/>
+
+                  <div class="login-separater text-center mb-4">
+                    <hr />
                   </div>
                   <div class="form-body">
-                    <el-form ref="loginForm" class="row g-3" autocomplete="on" :model="loginForm" :rules="loginRules">
+                    <el-form
+                      ref="loginForm"
+                      class="row g-3"
+                      autocomplete="on"
+                      :model="loginForm"
+                      :rules="loginRules"
+                    >
                       <div class="col-12">
-                        <label for="inputUserName" class="form-label">用户名</label>
-                        <el-form-item  prop="username">
-                        <input
-                          ref="username" 
-                          type="text" 
-                          class="form-control" 
-                          id="inputUserName" 
-                          placeholder="请输入用户名"
-                          v-model="loginForm.username"
-                          tabindex="1"
-                          auto-complete="on"
+                        <label for="inputUserName" class="form-label"
+                          >用户名</label
+                        >
+                        <el-form-item prop="username">
+                          <input
+                            ref="username"
+                            type="text"
+                            class="form-control"
+                            id="inputUserName"
+                            placeholder="请输入用户名"
+                            v-model="loginForm.username"
+                            tabindex="1"
+                            auto-complete="on"
                           />
                         </el-form-item>
                       </div>
                       <div class="col-12" style="margin-top: -10px">
-                        <label for="inputChoosePassword" class="form-label">输入密码</label>
-                        <el-form-item  prop="password">
-                        <div class="input-group" id="show_hide_password">
-                          
-                          <input 
-                            ref="password"
-                            v-model="loginForm.password"
-                            :key="passwordType"
-                            :type="passwordType" 
-                            name="password"
-                            tabindex="2"
-                            auto-complete="on"
-                            @keyup.enter.native="handleLogin"
-                            class="form-control border-end-0" 
-                            id="inputChoosePassword" 
-                            value="12345678" 
-                            placeholder="请输入密码"
-                            > <a  @click="showPwd" class="input-group-text bg-transparent"><i :class="passwordType === 'password' ? 'bx bx-hide' : 'bx bx-show'"></i></a>
-                          
-                        </div>
+                        <label for="inputChoosePassword" class="form-label"
+                          >输入密码</label
+                        >
+                        <el-form-item prop="password">
+                          <div class="input-group" id="show_hide_password">
+                            <input
+                              ref="password"
+                              v-model="loginForm.password"
+                              :key="passwordType"
+                              :type="passwordType"
+                              name="password"
+                              tabindex="2"
+                              auto-complete="on"
+                              @keyup.enter.native="handleLogin"
+                              class="form-control border-end-0"
+                              id="inputChoosePassword"
+                              value="12345678"
+                              placeholder="请输入密码"
+                            />
+                            <a
+                              @click="showPwd"
+                              class="input-group-text bg-transparent"
+                              ><i
+                                :class="
+                                  passwordType === 'password'
+                                    ? 'bx bx-hide'
+                                    : 'bx bx-show'
+                                "
+                              ></i
+                            ></a>
+                          </div>
                         </el-form-item>
                       </div>
                       <div class="col-md-6" style="margin-top: -10px">
-                         
-                        <span for="verificationCode" class="form-label">验证码</span>
-                        <el-form-item  prop="code">
+                        <span for="verificationCode" class="form-label"
+                          >验证码</span
+                        >
+                        <!-- <el-form-item  prop="code">
                         <input id="verificationCode" name="" type="text" class="form-control" />
+                        </el-form-item> -->
+                        <el-form-item prop="verifycode">
+                          <input
+                            v-model="loginForm.verifycode"
+                            placeholder="请输入验证码"
+                            type="text"
+                            class="form-control"
+                          />
                         </el-form-item>
-
+                        <!-- 随机验证码 -->
+                        <el-form-item>
+                          <div class="identifybox">
+                            <div @click="refreshCode">
+                              <s-identify
+                                :identifyCode="identifyCode"
+                              ></s-identify>
+                            </div>
+                            <!-- 刷新验证码 -->
+                            <el-button
+                              @click="refreshCode"
+                              type="text"
+                              class="textbtn"
+                              >看不清，换一张</el-button
+                            >
+                          </div>
+                        </el-form-item>
                       </div>
                       <div class="col-md-6" style="margin-top: -10px">
                         <random-code></random-code>
                         <!-- <img src="./images/yanzhengma.png" style="margin-top:10%;margin-left:30%" /> -->
                       </div>
-                      
+
                       <div class="col-md-6">
                         <!-- <div class="form-check form-switch">
                           <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
                           <label class="form-check-label" for="flexSwitchCheckChecked">Remember Me</label>
                         </div> -->
                       </div>
-                      
-                      
-                      <div class="col-md-6 text-end" style="margin-top: -10px">	<a href="authentication-forgot-password.html">忘记密码 ?</a>
+
+                      <div class="col-md-6 text-end" style="margin-top: -10px">
+                        <a href="authentication-forgot-password.html"
+                          >忘记密码 ?</a
+                        >
                       </div>
-                      
+
                       <div class="col-12">
                         <div class="d-grid">
-                          <el-button 
+                          <el-button
                             :loading="loading"
-                            type="primary" 
+                            type="primary"
                             class="btn btn-light"
                             @click.prevent="handleLogin"
                           >
@@ -112,14 +170,25 @@
 //import store from './store'
 import { validUsername } from "@/utils/validate";
 import request from "../../utils/request.js";
-import RandomCode from "./RandomCode.vue"
-import store from '../../store'
+import RandomCode from "./RandomCode.vue";
+import SIdentify from "./RandomCode.vue";
+import store from "../../store";
 export default {
   name: "Login",
-  components:{
+  components: {
     RandomCode,
   },
   data() {
+    const validateVerifycode = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入验证码"));
+      } else if (value !== this.identifyCode) {
+        console.log("validateVerifycode:", value);
+        callback(new Error("验证码不正确"));
+      } else {
+        callback();
+      }
+    };
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
         callback(new Error("Please enter the correct user name"));
@@ -138,17 +207,27 @@ export default {
       loginForm: {
         username: "patient",
         password: "123456",
+        verifycode: "",
       },
       loginRules: {
         username: [{ required: true, trigger: "blur" }],
         password: [
           { required: true, trigger: "blur", validator: validatePassword },
         ],
+        verifycode: [
+          { required: true, trigger: "blur", validator: validateVerifycode },
+        ],
       },
+      identifyCodes: "1234567890",
+      identifyCode: "",
       loading: false,
       passwordType: "password",
       redirect: undefined,
     };
+  },
+  components: {
+    // 注册绘制随机验证码的组件
+    SIdentify,
   },
   watch: {
     $route: {
@@ -159,6 +238,23 @@ export default {
     },
   },
   methods: {
+    // 生成随机数
+    randomNum(min, max) {
+      return Math.floor(Math.random() * (max - min) + min);
+    },
+    // 切换验证码
+    refreshCode() {
+      this.identifyCode = "";
+      this.makeCode(this.identifyCodes, 4);
+    },
+    // 生成四位随机验证码
+    makeCode(o, l) {
+      for (let i = 0; i < l; i++) {
+        this.identifyCode +=
+          this.identifyCodes[this.randomNum(0, this.identifyCodes.length)];
+      }
+      console.log(this.identifyCode);
+    },
     showPwd() {
       if (this.passwordType === "password") {
         this.passwordType = "";
@@ -211,7 +307,9 @@ export default {
     },
   },
   mounted() {
-    document.getElementsByTagName('body')[0].className = "bg-theme bg-theme2";
+    document.getElementsByTagName("body")[0].className = "bg-theme bg-theme2";
+    this.identifyCode = "";
+    this.makeCode(this.identifyCodes, 4);
   },
   // beforeDestroy() {
   //   document.getElementsByTagName('body')[0].className = "";
@@ -221,6 +319,20 @@ export default {
 </script>
 
 <style scoped>
+.randomcodeuse {
+  width: 60%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+}
+.identifybox {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 7px;
+}
+.iconstyle {
+  color: #409eff;
+}
 @import "./css/login.css";
 @import "../../assets/plugins/simplebar/css/simplebar.css";
 @import "../../assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css";

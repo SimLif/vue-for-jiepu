@@ -1,39 +1,63 @@
 <template>
-  <body>
-<div class="main">
-  <div class="main0">
-    <div class="main_top">
-          病房信息化服务平台
+  <div class="wrapper">
+    <div class="section-authentication-signin d-flex align-items-center justify-content-center my-5 my-lg-0">
+      <div class="container-fluid">
+        <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
+          <div class="col mx-auto">
+            <div class="mb-4 text-center">
+              <img src="@/assets/images/logo-img.png" width="180" alt="" />
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <div class="border p-4 rounded">
+                  <div class="text-center">
+                    <h3 class="">注册</h3>
+                    <p>已有账号？<a href="" @click.prevent="jump_login">立即登录</a>
+                    </p>
+                  </div>
+                  
+                  <div class="login-separater text-center mb-4"> 
+                    <hr/>
+                  </div>
+                  <div class="form-body">
+                    <el-form class="row g-3">
+                      <div class="col-md-6">
+                        <el-radio  v-model="radio1" label="1" border >我是医生/护士</el-radio>
+                      </div>
+                      <div class="col-md-6" style=" float: right">
+                        <el-radio v-model="radio1" label="2" border style="margin-left:10px">我是病人/家属</el-radio>
+                      </div>
+                      <div class="col-12">
+                        <label v-show="radio1=='1'" for="inputPass" class="form-label">请输入密码</label>
+                        <input id="inputPass" type="text" v-show="radio1=='1'" placeholder="请输入密码" v-model="input" class="form-control" />
+                      </div>
+                      
+                    <div class="col-md-6" style="margin-top:10%">
+                        <div class="d-grid">
+                          <el-button   class="btn btn-light"  @click.prevent="backPage"><i class="lni lni-chevron-left-circle"></i>上一步</el-button>
+                          
+                        </div>
+                      </div>
+                    <div class="col-md-6" style="margin-top:10%">
+                        <div class="d-grid">
+                          <el-button   class="btn btn-light"  @click.prevent="register_next"><i class="lni lni-chevron-right-circle"></i>下一步</el-button>
+                          
+                        </div>
+                      </div>
+                    </el-form>
+                    
+                    
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end row-->
+      </div>
     </div>
-     <div class="main_left">
-        <img src="./images/zhuce-image-3.png" class="theimg"/>
-        <img src="./images/zhuce-image-2.png" class="secimg"/>
-        <img src="./images/zhuce-image-1.png" class="firimg"/>
-     </div>
-     <div class="main_right">
-        <div class="main_r_up">
-            <img src="./images/user.png" />
-            <div class="pp">注册</div>
-        </div>
-        <div class="sub">
-          <td>
-            <el-button type="text" style="margin-left:120px;margin-top:-10px" disabled>已有账号？</el-button>
-          </td>
-          <td>
-            <el-button type="text" style="margin-left:0px;margin-top:-10px" @click.native.prevent="jump_login">立即登录</el-button>
-          </td>
-        </div>
-        <div>
-        <el-radio v-model="radio1" label="1" border style="margin-top:70px;margin-left:40px">我是医生/护士</el-radio>
-        <el-radio v-model="radio1" label="2" border>我是病人/家属</el-radio>
-       </div>
-        <el-input v-if="radio1=='1'" placeholder="请输入密码" style="margin-top:40px; width:200px;margin-left:100px" v-model="input" class="input1" :disabled="false"></el-input>
-        <el-input v-else placeholder="请输入密码" style="margin-top:40px; width:200px;margin-left:100px" v-model="input" class="input1" :disabled="true"></el-input>
-        <el-button :loading="loading" type="primary" style="width:260px;height:40px; text-align:center;color:#fff; font-size:14px; margin-left:70px; margin-top:40px;border-radius:5px;" @click.native.prevent="register_next">下一步</el-button>
-     </div>
   </div>
-</div>
-</body>
 </template>
 
 <script>
@@ -69,13 +93,27 @@ export default {
     },
     jump_login(){
       this.$router.push({ path: '/login' })
+    },
+    backPage() {
+      this.$router.go(-1)
     }
-  }
+  },
+  mounted() {
+    document.getElementsByTagName('body')[0].className = "bg-theme bg-theme2";
+  },
 }
 </script>
 
 <style scoped>
 @import './css/register.css';
+@import "./css/login.css";
+@import "../../assets/plugins/simplebar/css/simplebar.css";
+@import "../../assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css";
+@import "../../assets/plugins/metismenu/css/metisMenu.min.css";
+@import "../../assets/css/pace.min.css";
+@import "../../assets/css/bootstrap.min.css";
+@import "../../assets/css/app.css";
+@import "../../assets/css/icons.css";
 
 </style>
 

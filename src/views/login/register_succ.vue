@@ -1,29 +1,46 @@
 <template>
-  <body>
-<div class="main">
-  <div class="main0">
-    <div class="main_top">
-          病房信息化服务平台
+  <div class="wrapper">
+    <div class="section-authentication-signin d-flex align-items-center justify-content-center my-5 my-lg-0">
+      <div class="container-fluid">
+        <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
+          <div class="col mx-auto">
+            <div class="mb-4 text-center">
+              <img src="@/assets/images/logo-img.png" width="180" alt="" />
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <div class="border p-4 rounded">
+                  <div class="text-center">
+                    <h3 class="">-^0^- 注册成功！！！</h3>
+                    
+                  </div>
+                  
+                  <div class="login-separater text-center mb-4"> 
+                    <hr/>
+                  </div>
+                  <div class="form-body">
+                    <el-form class="row g-3">
+                      
+                    <div class="col-12" style="margin-top:10%">
+                        <div class="d-grid">
+                          <el-button   class="btn btn-light"  @click.prevent="jump_login"><i class="lni lni-checkmark-circle"></i>跳转到登录界面</el-button>
+                          
+                        </div>
+                      </div>
+                    </el-form>
+                    
+                    
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end row-->
+      </div>
     </div>
-     <div class="main_left">
-        <img src="./images/zhuce-over-3.png" class="theimg"/>
-        <img src="./images/zhuce-over-2.png" class="secimg"/>
-        <img src="./images/zhuce-over-1.png" class="firimg"/>
-     </div>
-     <div class="main_right">
-        <div class="main_r_up">
-            <img src="./images/user.png" />
-            <div class="pp">注册</div>
-        </div>
-        <div class="sub"></div>
-        <div>
-           <div class="font24"><span class="blue" style=" padding-right:20px">-^0^-</span>注册成功！</div>
-           <el-button type="text" style=" margin:50px 150px ;font-size:20px;" @click.native.prevent="jump_login">跳转到登录界面</el-button>
-        </div>
-     </div>
   </div>
-</div>
-</body>
 </template>
 
 <script>
@@ -33,12 +50,25 @@ export default {
     jump_login(){
       this.$router.push({ path: '/login' })
     }
-  }
+  },
+  mounted() {
+    document.getElementsByTagName('body')[0].className = "bg-theme bg-theme2";
+  },
+  
 }
 </script>
 
 <style scoped>
 @import './css/register_patient.css';
+@import './css/register.css';
+@import "./css/login.css";
+@import "../../assets/plugins/simplebar/css/simplebar.css";
+@import "../../assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css";
+@import "../../assets/plugins/metismenu/css/metisMenu.min.css";
+@import "../../assets/css/pace.min.css";
+@import "../../assets/css/bootstrap.min.css";
+@import "../../assets/css/app.css";
+@import "../../assets/css/icons.css";
 
 </style>
 

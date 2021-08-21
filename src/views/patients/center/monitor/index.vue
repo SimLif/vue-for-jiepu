@@ -193,7 +193,19 @@ export default {
     responseCallback: function (frame) {
       console.log("responseCallback msg=>" + frame.body);
       console.log("------");
+      var storage = localStorage.getItem("id");
+      var emailform = new FormData();
+      emailform.append("user_id", storage);
+      emailform.append("type","0")
       var data = JSON.parse(frame.body)
+      // console.log(data.Heart[72].Alert,"报警位")
+      // if(data.Heart[72].Alert==1){this.$message.error('心率超出正常范围，请注意');
+      // request({
+      //       url: "/email/",
+      //       method: "post",
+      //       data:  emailform,
+      //     });
+      //     }
       this.ecglinedata.xdata.push(data.time)
       this.ecglinedata.ydata.push(data.ECG[17].data)
       this.bloodo2linedata.xdata.push(data.time)

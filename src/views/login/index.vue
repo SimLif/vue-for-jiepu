@@ -1,106 +1,111 @@
 <template>
-  <el-form
-    ref="loginForm"
-    :model="loginForm"
-    :rules="loginRules"
-    class="login-form"
-    auto-complete="on"
-    label-position="left"
-  >
-    <body>
-      <div class="main">
-        <div class="main0">
-          <div class="main_top">病房信息化服务平台</div>
-          <div class="main_left">
-            <img src="./images/login-image-3.png" class="theimg" />
-            <img src="./images/login-image-2.png" class="secimg" />
-            <img src="./images/login-image-1.png" class="firimg" />
-          </div>
-          <div class="main_right">
-            <div class="main_r_up">
-              <img src="./images/user.png" />
-              <div class="pp">登录</div>
+  <div class="wrapper">
+    <div class="section-authentication-signin d-flex align-items-center justify-content-center my-5 my-lg-0">
+      <div class="container-fluid">
+        <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
+          <div class="col mx-auto">
+            <div class="mb-4 text-center">
+              <img src="@/assets/images/logo-img.png" width="180" alt="" />
             </div>
-            <div class="sub">
-              <td>
-                <el-button
-                  type="text"
-                  style="margin-left: 120px; margin-top: -10px"
-                  disabled
-                  >还没有账号？</el-button
-                >
-              </td>
-              <td>
-                <el-button
-                  type="text"
-                  style="margin-left: 0px; margin-top: -10px"
-                  @click.native.prevent="handleRegister"
-                  >立即注册</el-button
-                >
-              </td>
+            <div class="card">
+              <div class="card-body">
+                <div class="border p-4 rounded">
+                  <div class="text-center">
+                    <h3 class="">登录</h3>
+                    <p>还没有账号吗? <a href="" @click.prevent="handleRegister">点击这里注册</a>
+                    </p>
+                  </div>
+                  
+                  <div class="login-separater text-center mb-4"> 
+                    <hr/>
+                  </div>
+                  <div class="form-body">
+                    <el-form ref="loginForm" class="row g-3" autocomplete="on" :model="loginForm" :rules="loginRules">
+                      <div class="col-12">
+                        <label for="inputUserName" class="form-label">用户名</label>
+                        <el-form-item  prop="username">
+                        <input
+                          ref="username" 
+                          type="text" 
+                          class="form-control" 
+                          id="inputUserName" 
+                          placeholder="请输入用户名"
+                          v-model="loginForm.username"
+                          tabindex="1"
+                          auto-complete="on"
+                          />
+                        </el-form-item>
+                      </div>
+                      <div class="col-12" style="margin-top: -10px">
+                        <label for="inputChoosePassword" class="form-label">输入密码</label>
+                        <el-form-item  prop="password">
+                        <div class="input-group" id="show_hide_password">
+                          
+                          <input 
+                            ref="password"
+                            v-model="loginForm.password"
+                            :key="passwordType"
+                            :type="passwordType" 
+                            name="password"
+                            tabindex="2"
+                            auto-complete="on"
+                            @keyup.enter.native="handleLogin"
+                            class="form-control border-end-0" 
+                            id="inputChoosePassword" 
+                            value="12345678" 
+                            placeholder="请输入密码"
+                            > <a  @click="showPwd" class="input-group-text bg-transparent"><i :class="passwordType === 'password' ? 'bx bx-hide' : 'bx bx-show'"></i></a>
+                          
+                        </div>
+                        </el-form-item>
+                      </div>
+                      <div class="col-md-6" style="margin-top: -10px">
+                         
+                        <span for="verificationCode" class="form-label">验证码</span>
+                        <el-form-item  prop="code">
+                        <input id="verificationCode" name="" type="text" class="form-control" />
+                        </el-form-item>
+
+                      </div>
+                      <div class="col-md-6" style="margin-top: -10px">
+                        
+                        <img src="./images/yanzhengma.png" style="margin-top:10%;margin-left:30%" />
+                      </div>
+                      
+                      <div class="col-md-6">
+                        <!-- <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+                          <label class="form-check-label" for="flexSwitchCheckChecked">Remember Me</label>
+                        </div> -->
+                      </div>
+                      
+                      
+                      <div class="col-md-6 text-end" style="margin-top: -10px">	<a href="authentication-forgot-password.html">忘记密码 ?</a>
+                      </div>
+                      
+                      <div class="col-12">
+                        <div class="d-grid">
+                          <el-button 
+                            :loading="loading"
+                            type="primary" 
+                            class="btn btn-light"
+                            @click.prevent="handleLogin"
+                          >
+                            <i class="bx bxs-lock-open"></i>登录
+                          </el-button>
+                        </div>
+                      </div>
+                    </el-form>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="txt">
-              <td>
-                <span style="letter-spacing: 4px">用户名:</span>
-              </td>
-              <td>
-                <el-input
-                  ref="username"
-                  v-model="loginForm.username"
-                  placeholder="请输入用户名"
-                  name="username"
-                  type="text"
-                  tabindex="1"
-                  auto-complete="on"
-                  style="letter-spacing: 4px; margin-left: 16px; width: 210px"
-                />
-              </td>
-            </div>
-            <div class="txt">
-              <td>
-                <span style="letter-spacing: 4px">登录密码:</span>
-              </td>
-              <td>
-                <el-input
-                  :key="passwordType"
-                  ref="password"
-                  v-model="loginForm.password"
-                  :type="passwordType"
-                  placeholder="请输入密码"
-                  name="password"
-                  tabindex="2"
-                  auto-complete="on"
-                  style="letter-spacing: 4px; width: 210px"
-                  @keyup.enter.native="handleLogin"
-                />
-              </td>
-            </div>
-            <div class="txt">
-              <span style="float: left; letter-spacing: 8px">验证码:</span>
-              <input name="" type="text" class="txtyzm" />
-              <img src="./images/yanzhengma.png" class="yzmimg" />
-            </div>
-            <el-button
-              :loading="loading"
-              type="primary"
-              style="
-                width: 260px;
-                height: 40px;
-                text-align: center;
-                color: #fff;
-                font-size: 14px;
-                margin-left: 80px;
-                margin-top: 40px;
-                border-radius: 5px;
-              "
-              @click.native.prevent="handleLogin"
-              >登录</el-button
-            >
           </div>
         </div>
+        <!--end row-->
       </div>
-    </body>
-  </el-form>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -174,7 +179,13 @@ export default {
           this.$store
             .dispatch("user/login", this.loginForm)
             .then(() => {
-              
+              // var identity= localStorage.getItem("identity");
+              // console.log(identity,"444444444444444444")
+              // if(identity=="doctor"){this.$router.push({ path: "/doctors-patiens" });}
+              // else if(identity=="patient"){this.$router.push({ path: "/patients-center/companions" });}
+              // else if(identity=="nurse"){this.$router.push({ path: "/nurses-patiens" });}
+              // else if(identity=="relation"){this.$router.push({ path: "/relation-center/companions" });}
+              // else{this.$router.push({ path: "/admin-users" });}
               this.$router.push({ path: this.redirect || "/" });
               this.loading = false;
             })
@@ -195,11 +206,25 @@ export default {
       this.$router.push({ path: "/register" });
     },
   },
+  mounted() {
+    document.getElementsByTagName('body')[0].className = "bg-theme bg-theme2";
+  },
+  // beforeDestroy() {
+  //   document.getElementsByTagName('body')[0].className = "";
+  //   location.reload();
+  // },
 };
 </script>
 
 <style scoped>
 @import "./css/login.css";
+@import "../../assets/plugins/simplebar/css/simplebar.css";
+@import "../../assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css";
+@import "../../assets/plugins/metismenu/css/metisMenu.min.css";
+@import "../../assets/css/pace.min.css";
+@import "../../assets/css/bootstrap.min.css";
+@import "../../assets/css/app.css";
+@import "../../assets/css/icons.css";
 </style>
 
  

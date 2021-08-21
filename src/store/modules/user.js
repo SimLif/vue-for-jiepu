@@ -89,6 +89,26 @@ const actions = {
               resolve(data)
             })
           }
+          else if(data.identity=="patient"){
+            request({
+              url:"/patient/patient/",
+              method:"get",
+              params:{
+                "user_id":data.id
+              }
+            }).then((res)=>{
+              if(res.data.results[0].doctor_id==1)
+              {
+                return reject('请先让医生绑定病人')
+              }
+              if(!roles || roles.lengty <= 0) {
+                reject('获取role失败')
+              }
+              commit('SET_ROLES',roles)
+              //commit('SET_RESULTS',data.results)
+              resolve(data)
+            })
+          }
           else{
           // data.results[0].groups.forEach(item=>{
           //   roles.push(item.name)

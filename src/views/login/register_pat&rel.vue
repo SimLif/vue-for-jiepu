@@ -1,87 +1,208 @@
 <template>
-  <body>
-    <div class="main">
-      <div class="main0">
-        <div class="main_top">病房信息化服务平台</div>
-        <div class="main_left">
-          <img src="./images/zhuce-image-3.png" class="theimg" />
-          <img src="./images/zhuce-image-2.png" class="secimg" />
-          <img src="./images/zhuce-image-1.png" class="firimg" />
-        </div>
-        <div class="main_right">
-          <div class="main_r_up">
-            <img src="./images/user.png" />
-            <div class="pp">病人/家属</div>
+  <div class="wrapper">
+    <div class="section-authentication-signin d-flex align-items-center justify-content-center my-5 my-lg-0">
+      <div class="container-fluid">
+        <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-2">
+          <div class="col mx-auto">
+            <!-- <div class="mb-4 text-center">
+              <img src="@/assets/images/logo-img.png" width="180" alt="" />
+            </div> -->
+            <div class="card">
+              <div class="card-body">
+                <div class="border p-4 rounded">
+                  <div class="text-center">
+                    <h3 class="">病人/家属注册</h3>
+                    <p>已有账号？ <a href="" @click.prevent="jump_login">立即登录</a>
+                    </p>
+                  </div>
+                  
+                  <div class="login-separater text-center mb-4"> 
+                    <hr/>
+                  </div>
+                  <div class="form-body">
+                    <el-form ref="AdduserForm" class="row g-3" autocomplete="on" :model="AdduserForm" :rules="rules">
+                      
+                      <div class="col-12">
+                        
+                        <label for="inputUserAccount" class="form-label">用户账号</label>
+                        <el-form-item  prop="username">
+                        <input
+                          ref="username" 
+                          type="text" 
+                          class="form-control" 
+                          id="inputUserAccount" 
+                          placeholder="请输入注册账号"
+                          v-model="AdduserForm.username"
+                          tabindex="1"
+                          auto-complete="on"
+                          />
+                        </el-form-item>
+                      </div>
+                      <div class="col-sm-6" style="margin-top: -10px" >
+                        <label for="inputChoosePassword" class="form-label">用户密码</label>
+                        <el-form-item  prop="password">
+                        <div class="input-group" id="show_hide_password">
+                          <input 
+                            ref="password"
+                            v-model="AdduserForm.password"
+                            :key="passwordType"
+                            :type="passwordType" 
+                            name="password"
+                            tabindex="2"
+                            auto-complete="on"
+                            
+                            class="form-control border-end-0" 
+                            id="inputChoosePassword" 
+                            value="12345678" 
+                            placeholder="请输入密码"
+                            > <a  @click="showPwd" class="input-group-text bg-transparent"><i :class="passwordType === 'password' ? 'bx bx-hide' : 'bx bx-show'"></i></a>
+                        </div>
+                        </el-form-item>
+                      </div>
+                      <div class="col-sm-6" style="margin-top: -10px" >
+                        <label for="inputPasswordAgain" class="form-label">再次输入密码</label>
+                        <el-form-item>
+                        <div class="input-group" >
+                          <input 
+                            ref="password2"
+                            
+                            
+                            :type="passwordType" 
+                            name="password"
+                            tabindex="2"
+                            auto-complete="on"
+                            
+                            class="form-control border-end-0" 
+                            id="inputPasswordAgain" 
+                            
+                            placeholder="请再次输入密码"
+                            > <a  @click="showPwd2" class="input-group-text bg-transparent"><i :class="passwordType2 === 'password' ? 'bx bx-hide' : 'bx bx-show'"></i></a>
+                        </div>
+                        </el-form-item>
+                      </div>
+                      <div class="col-8" style="margin-top: -10px" >
+                        <label for="inputUserName" class="form-label">姓名</label>
+                        <el-form-item prop="name">
+                        <input
+                           
+                          type="text" 
+                          class="form-control" 
+                          id="inputUserName" 
+                          placeholder="请输入姓名"
+                          v-model="AdduserForm.name"
+                          tabindex="1"
+                          auto-complete="on"
+                          />
+                        </el-form-item> 
+                      </div>
+                      <div class="col-4" style="margin-top: -10px" >
+                        <label for="selectID" class="form-label">身份</label>
+                        <el-form-item  prop="identity">
+                        <select
+                          v-model="AdduserForm.identity"
+                          placeholder="请选择身份"
+                          id="selectID"
+                          class="form-select" 
+                        >
+                          <option label="病人" value="patient"></option>
+                          <option label="家属" value="relation"></option>
+                        </select>
+                        </el-form-item>
+                      </div>
+                      <div class="col-sm-6" style="margin-top: -10px" >
+                        <el-form-item prop="email">
+                        <label for="inputUserEmail" class="form-label">用户邮箱</label>
+                        <input
+                           
+                          type="email" 
+                          class="form-control" 
+                          id="inputUserEmail" 
+                          placeholder="请输入邮箱"
+                          v-model="AdduserForm.email"
+                          tabindex="1"
+                          auto-complete="on"
+                          />
+                        </el-form-item>
+                      </div>
+                      <div class="col-sm-6" style="margin-top: 10px">
+                        <label for="inputUserPhonenumber" class="form-label">电话号码</label>
+                        <el-form-item prop="phonenumber">
+                        <input
+                           
+                          type="phonenumber" 
+                          class="form-control" 
+                          id="inputUserPhonenumber" 
+                          placeholder="请输入电话号码"
+                          v-model="AdduserForm.phonenumber"
+                          tabindex="1"
+                          auto-complete="on"
+                          />
+                        </el-form-item>
+                      </div>
+                      
+                      <div class="col-12" style="margin-top: -10px">
+                        <label for="inputUserBirthday" class="form-label">出生日期</label>
+                        <el-form-item  prop="data">
+                        <el-date-picker
+                          id="inputUserBirthday"
+                          v-model="AdduserForm.birthday"
+                          type="date"
+                          placeholder="选择日期"
+                          value-format="yyyy-MM-dd"
+                          
+                          style="width:100%; background-color: rgb(0 0 0 / 15%);"
+                        >
+                        </el-date-picker>
+                        </el-form-item>
+                      </div>
+                      
+                      <div class="col-sm-4">
+                        <div class="d-grid">
+                          <el-button 
+                            
+                            type="primary" 
+                            class="btn btn-light"
+                            @click="backPage"
+                          >
+                            <i class="lni lni-chevron-left-circle"></i>上一步
+                          </el-button>
+                        </div>
+                      </div>
+                      <div class="col-sm-8">
+                        <div class="d-grid">
+                          <el-button 
+                            
+                            type="primary" 
+                            class="btn btn-light"
+                            @click="submitForm('AdduserForm')"
+                          >
+                            <i class="bx bx-user"></i>立即创建
+                          </el-button>
+                        </div>
+                      </div>
+                      <!-- <div class="col-sm-6">
+                        <div class="d-grid">
+                          <el-button 
+                            
+                            type="primary" 
+                            class="btn btn-light"
+                            @click="resetForm"
+                          >
+                            <i class="bx bxs-lock-open"></i>重置
+                          </el-button>
+                        </div>
+                      </div> -->
+                    </el-form>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="sub">
-            <td>
-              <el-button
-                type="text"
-                style="margin-left: 70px; margin-top: -10px"
-                disabled
-                >已有账号？</el-button
-              >
-            </td>
-            <td>
-              <el-button
-                type="text"
-                style="margin-left: 0px; margin-top: -10px"
-                @click.native.prevent="jump_login"
-                >立即登录</el-button
-              >
-            </td>
-          </div>
-          <el-form
-            :model="AdduserForm"
-            :rules="rules"
-            ref="AdduserForm"
-            label-width="100px"
-            class="demo-AdduserForm"
-          >
-            <el-form-item label="用户账号" style="margin-top: 5px" prop="username">
-              <el-input v-model="AdduserForm.username"></el-input>
-            </el-form-item>
-            <el-form-item label="用户密码" style="margin-top: -10px" prop="password">
-              <el-input v-model="AdduserForm.password"></el-input>
-            </el-form-item>
-            <el-form-item label="用户邮箱" style="margin-top: -10px" prop="email">
-              <el-input v-model="AdduserForm.email"></el-input>
-            </el-form-item>
-            <el-form-item label="身份" style="margin-top: -10px" prop="identity">
-              <el-select
-                v-model="AdduserForm.identity"
-                placeholder="请选择身份"
-              >
-                <el-option label="病人" value="patient"></el-option>
-                <el-option label="家属" value="relation"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="姓名" style="margin-top: -10px" prop="name">
-              <el-input v-model="AdduserForm.name"></el-input>
-            </el-form-item>
-            <el-form-item label="电话号码" style="margin-top: -10px" prop="phonenumber">
-              <el-input v-model="AdduserForm.phonenumber"></el-input>
-            </el-form-item>
-            <el-form-item label="出生日期" style="margin-top: -10px" prop="data">
-              <el-date-picker
-                v-model="AdduserForm.birthday"
-                type="date"
-                placeholder="选择日期"
-                value-format="yyyy-MM-dd"
-              >
-              </el-date-picker>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="submitForm('AdduserForm')"
-                >立即创建</el-button
-              >
-              <el-button @click="resetForm">重置</el-button>
-            </el-form-item>
-          </el-form>
         </div>
+        <!--end row-->
       </div>
     </div>
-  </body>
+  </div>
 </template>
 
 <script>
@@ -89,6 +210,8 @@ import request from "../../utils/request.js";
 export default {
   data() {
     return {
+      passwordType: "password",
+      passwordType2: "password",
       AdduserForm: {
         username: "",
         password: "",
@@ -97,6 +220,9 @@ export default {
         name: "",
         phonenumber: "",
         birthday: "",
+        ward_id:1,
+        patient_id:1,
+        doctor_id:1
       },
       loginForm: {
         username: "admin",
@@ -144,6 +270,26 @@ export default {
     jump_login() {
       this.$router.push({ path: "/login" });
     },
+    showPwd() {
+      if (this.passwordType === "password") {
+        this.passwordType = "";
+      } else {
+        this.passwordType = "password";
+      }
+      this.$nextTick(() => {
+        this.$refs.password.focus();
+      });
+    },
+    showPwd2() {
+      if (this.passwordType2 === "password") {
+        this.passwordType2 = "";
+      } else {
+        this.passwordType2 = "password";
+      }
+      this.$nextTick(() => {
+        this.$refs.password2.focus();
+      });
+    },
     submitForm(AdduserForm) {
       this.$refs[AdduserForm].validate((valid) => {
         if (valid) {
@@ -156,6 +302,7 @@ export default {
           }).then((res) => {
             this.AdduserForm.user_id = res.data.id;
             emailform.append("user_id", this.AdduserForm.user_id);
+            emailform.append("type","1")
             request({
               url: "/email/",
               method: "post",
@@ -166,17 +313,36 @@ export default {
                 url: "/patient/patient/",
                 method: "post",
                 data: this.AdduserForm,
-              }).then(()=>{
-                this.$store.dispatch('user/logout')
+              }).then((res)=>{
+                request({
+                  url:"/patient/patient/"+res.data.id+"/",
+                  method:"patch",
+                  data:{
+                    "doctor_id":1,
+                    "user_id":res.data.user_id
+                  }
+                }).then(()=>{
+                  this.$store.dispatch('user/logout')
+                })
               });
+             
             }
             if (res.data.identity == "relation") {
               request({
                 url: "/relation/relation/",
                 method: "post",
                 data: this.AdduserForm,
-              }).then(()=>{
-                this.$store.dispatch('user/logout')
+              }).then((res)=>{
+                request({
+                  url:"/relation/relation/"+res.data.id+"/",
+                  method:"patch",
+                  data:{
+                    "patient_id":1,
+                    "user_id":res.data.user_id
+                  }
+                }).then(()=>{
+                  this.$store.dispatch('user/logout')
+                })
               });
             }
           });
@@ -191,12 +357,37 @@ export default {
     resetForm() {
       this.$refs[this.AdduserForm].resetFields();
     },
+    backPage() {
+      this.$router.go(-1)
+    }
+  },
+  mounted() {
+    document.getElementsByTagName('body')[0].className = "bg-theme bg-theme2";
+    
+    setTimeout(function (){
+ 
+      document.getElementsByClassName('el-input__inner')[0].style.backgroundColor = "rgb(0 0 0 / 15%)";
+      
+      // $('el-input__inner').css("backgroundColor","red")
+    }, 50);
   },
 };
 </script>
 
 <style scoped>
 @import "./css/register.css";
+@import "./css/login.css";
+@import "../../assets/plugins/simplebar/css/simplebar.css";
+@import "../../assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css";
+@import "../../assets/plugins/metismenu/css/metisMenu.min.css";
+@import "../../assets/css/pace.min.css";
+@import "../../assets/css/bootstrap.min.css";
+@import "../../assets/css/app.css";
+@import "../../assets/css/icons.css";
+  
+  .el-input__inner {
+   background-color: rgb(0 0 0 / 15%);
+  }
 </style>
 
  

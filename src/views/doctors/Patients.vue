@@ -58,6 +58,9 @@
     <div class="ui container">
       <div class="ui four stackable cards">
         <div v-for="t in count " class="ui centered card" :key="t.index">
+          <a v-if="ifFocus" class="ui orange right corner label">
+            <i class="star icon"></i>
+          </a>
           <div class="content">
             <!-- <img
               class="right floated mini ui image"
@@ -69,14 +72,14 @@
               <div class="ui internally celled grid">
                 <div class="eight wide column" >
                   
-                  <a class="ui top attached green  label" style="text-align: center">心率</a>
+                  <a class="ui top attached green  label" style="text-align: center"><i class="ui heartbeat icon"> 心率</i></a>
                   <div class="ui center aligned container" style="height:20px">
                   {{data[t-1].Heart_rate}}PM
                   </div>
                   
                 </div>
                 <div class="eight wide column">
-                  <a class="ui top attached teal label" style="text-align: center">血压</a>
+                  <a class="ui top attached teal label" style="text-align: center"><i class="ui user md icon"> 血压</i></a>
                   <div class="ui right aligned container">
                   {{data[t-1].Dbq}}/{{data[t-1].Sbq}}mmHg
                   </div>
@@ -112,7 +115,8 @@
           </div>
           <div class="extra content">
             <div class="ui three buttons">
-              <div class="ui basic green button">重点关注</div>
+              <div @click="reverseFocus" v-if="!ifFocus" class="ui basic green button">重点关注</div>
+              <div @click="reverseFocus" v-else class="ui basic black button">取消关注</div>
               <div class="ui basic red button" @click="deletepatient(patienttable[t-1].id)">移除病人</div>
             </div>
           </div>
@@ -145,6 +149,7 @@ export default {
   name: "Dashboard",
   data() {
     return {
+      ifFocus: false,
       tableData: [
         {
           id: "",
@@ -226,6 +231,9 @@ export default {
     this.fetchPatientData();
   },
   methods: {
+    reverseFocus() {
+      this.ifFocus = !this.ifFocus;
+    },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
       this.page = val;

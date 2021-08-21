@@ -68,8 +68,8 @@
 
                       </div>
                       <div class="col-md-6" style="margin-top: -10px">
-                        
-                        <img src="./images/yanzhengma.png" style="margin-top:10%;margin-left:30%" />
+                        <random-code></random-code>
+                        <!-- <img src="./images/yanzhengma.png" style="margin-top:10%;margin-left:30%" /> -->
                       </div>
                       
                       <div class="col-md-6">
@@ -112,9 +112,13 @@
 //import store from './store'
 import { validUsername } from "@/utils/validate";
 import request from "../../utils/request.js";
+import RandomCode from "./RandomCode.vue"
 import store from '../../store'
 export default {
   name: "Login",
+  components:{
+    RandomCode,
+  },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {

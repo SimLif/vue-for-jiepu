@@ -215,8 +215,8 @@
         class="ui centered grid"
         style="margin-top: 3%; margin-bottom: 1%; overflow: auto"
       >
-        <el-pagination background layout="prev, pager, next" :total="1000">
-        </el-pagination>
+        <!-- <el-pagination background layout="prev, pager, next" :total="1000">
+        </el-pagination> -->
       </div>
     </el-dialog>
 
@@ -781,9 +781,7 @@ export default {
       var params1 ={
         patient_id:0
       }
-      console.log("222");
-
-      //console.log("111")
+     
       request({
         url: "/patient/patient/",
         method: "get",

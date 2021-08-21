@@ -8,7 +8,7 @@ import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-const whiteList = ['/login','/register','/register_doc&nur','/register_pat&rel','/register_succ','/'] // no redirect whitelist
+const whiteList = ['/login','/register','/register_doc&nur','/register_pat&rel','/register_succ','/','/doctors-patiens','/patients-center/companions','/nurses-patiens','/relation-center/companions','/admin-users'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
   NProgress.start()
@@ -31,6 +31,7 @@ router.beforeEach(async(to, from, next) => {
           //const { roles } = await store.dispatch('user/getInfo')
           var results = await store.dispatch('user/getInfo')
           window.localStorage.setItem("id",results.id)
+          window.localStorage.setItem("identity",results.identity)
           let roles = []
           roles.push(results.identity)
           console.log(roles,'per roles...')

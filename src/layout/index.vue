@@ -14,12 +14,20 @@
 <script>
 import { Navbar, Sidebar, AppMain } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
-
+import Stomp from "stompjs";
+import request from "../utils/request.js";
+import {
+  MQ_SERVICE,
+  MQ_USERNAME,
+  MQ_PASSWORD,
+} from "../config/linkparams.js";
 export default {
   name: 'Layout',
   data () {
     return {
+      client: Stomp.client(MQ_SERVICE),
       refreshFlag:true,
+    
     }
   },
   components: {
@@ -47,7 +55,43 @@ export default {
       }
     }
   },
+  created () {
+    this.connect()
+  },
   methods: {
+    onConnected: function (frame) {
+      console.log('Connected: ' + frame)
+      var topic = '/topic/Info'
+ 
+      this.client.subscribe(topic, this.responseCallback, this.onFailed)
+    },
+    onFailed: function (frame) {
+      console.log('Failed: ' + frame)
+    },
+    responseCallback: function (frame) {
+      var storage = localStorage.getItem("id");
+      var emailform = new FormData();
+      emailform.append("user_id", storage);
+      emailform.append("type","0")
+      console.log('responseCallback msg=>' + frame.body)
+      console.log('------')
+      var data = JSON.parse(frame.body)
+      console.log(data.Heart[72].Alert,"报警位")
+      if(data.Heart[72].Alert==1){this.$message.error('心率超出正常范围，请注意');
+      request({
+            url: "/email/",
+            method: "post",
+            data:  emailform,
+          });
+          }
+    },
+    connect: function () {
+      var headers = {
+        'login': MQ_USERNAME,
+        'passcode': MQ_PASSWORD
+      }
+      this.client.connect(headers, this.onConnected, this.onFailed)
+    },
     handleClickOutside() {
       this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
     }

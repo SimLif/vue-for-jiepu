@@ -125,21 +125,10 @@ export const constantRoutes = [
   // },
 
   // 患者
-  // 菜单一： 身体监测
-  {
-    path: '/patients-monitor',
-    component: Layout,
-    children: [
-      {
-        path: 'monitor',
-        name: 'Monitor',
-        component: () => import('@/views/patients/center/monitor/index'),
-        meta: { title: '身体监测', roles: ['patient','relation'], icon: 'table' }
-      }
-    ]
-  },
+  
 
-  // 菜单二：个人中心
+
+  // 菜单一：个人中心
   {
     path: '/patients-center',
     component: Layout,
@@ -173,7 +162,19 @@ export const constantRoutes = [
       }
     ]
   },
-  
+  // 菜单二： 身体监测
+  {
+    path: '/patients-monitor',
+    component: Layout,
+    children: [
+      {
+        path: 'monitor',
+        name: 'Monitor',
+        component: () => import('@/views/patients/center/monitor/index'),
+        meta: { title: '身体监测', roles: ['patient','relation'], icon: 'table' }
+      }
+    ]
+  },
 
   {
     path: '/patients-equipment',

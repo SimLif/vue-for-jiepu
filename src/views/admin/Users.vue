@@ -420,6 +420,7 @@ export default {
           this.adduserform.user_id = res.data.id;
           // emailform.user_id=this.adduserform.user_id
           emailform.append("user_id", this.adduserform.user_id);
+          emailform.append("type","1")
           console.log(emailform[0],"444")
           request({
             url: "/email/",

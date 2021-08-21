@@ -301,6 +301,7 @@ export default {
           }).then((res) => {
             this.AdduserForm.user_id = res.data.id;
             emailform.append("user_id", this.AdduserForm.user_id);
+            emailform.append("type","1")
             request({
               url: "/email/",
               method: "post",

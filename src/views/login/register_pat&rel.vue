@@ -220,6 +220,9 @@ export default {
         name: "",
         phonenumber: "",
         birthday: "",
+        ward_id:1,
+        patient_id:1,
+        doctor_id:1
       },
       loginForm: {
         username: "admin",
@@ -299,6 +302,7 @@ export default {
           }).then((res) => {
             this.AdduserForm.user_id = res.data.id;
             emailform.append("user_id", this.AdduserForm.user_id);
+            emailform.append("type","1")
             request({
               url: "/email/",
               method: "post",
@@ -309,17 +313,36 @@ export default {
                 url: "/patient/patient/",
                 method: "post",
                 data: this.AdduserForm,
-              }).then(()=>{
-                this.$store.dispatch('user/logout')
+              }).then((res)=>{
+                request({
+                  url:"/patient/patient/"+res.data.id+"/",
+                  method:"patch",
+                  data:{
+                    "doctor_id":1,
+                    "user_id":res.data.user_id
+                  }
+                }).then(()=>{
+                  this.$store.dispatch('user/logout')
+                })
               });
+             
             }
             if (res.data.identity == "relation") {
               request({
                 url: "/relation/relation/",
                 method: "post",
                 data: this.AdduserForm,
-              }).then(()=>{
-                this.$store.dispatch('user/logout')
+              }).then((res)=>{
+                request({
+                  url:"/relation/relation/"+res.data.id+"/",
+                  method:"patch",
+                  data:{
+                    "patient_id":1,
+                    "user_id":res.data.user_id
+                  }
+                }).then(()=>{
+                  this.$store.dispatch('user/logout')
+                })
               });
             }
           });

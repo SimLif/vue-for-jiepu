@@ -183,7 +183,13 @@ export default {
           this.$store
             .dispatch("user/login", this.loginForm)
             .then(() => {
-              
+              // var identity= localStorage.getItem("identity");
+              // console.log(identity,"444444444444444444")
+              // if(identity=="doctor"){this.$router.push({ path: "/doctors-patiens" });}
+              // else if(identity=="patient"){this.$router.push({ path: "/patients-center/companions" });}
+              // else if(identity=="nurse"){this.$router.push({ path: "/nurses-patiens" });}
+              // else if(identity=="relation"){this.$router.push({ path: "/relation-center/companions" });}
+              // else{this.$router.push({ path: "/admin-users" });}
               this.$router.push({ path: this.redirect || "/" });
               this.loading = false;
             })

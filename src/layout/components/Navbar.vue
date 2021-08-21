@@ -16,8 +16,11 @@
               主页
             </el-dropdown-item>
           </router-link>
-          <el-dropdown-item>
+          <el-dropdown-item v-if="mode=='white'" @click.native="blackMode">
               黑夜模式
+            </el-dropdown-item>
+            <el-dropdown-item v-else @click.native="whiteMode">
+              白天模式
             </el-dropdown-item>
           <!-- <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
             <el-dropdown-item>Github</el-dropdown-item>
@@ -40,6 +43,11 @@ import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 
 export default {
+  data() {
+    return {
+      mode: "white"
+    }
+  },
   components: {
     Breadcrumb,
     Hamburger
@@ -58,6 +66,26 @@ export default {
       this.$router.push('/')
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    },
+    blackMode() {
+      this.mode = "black"
+      document.getElementsByTagName('html')[0].style.filter = "invert(1) contrast(0.95) saturate(0.5) hue-rotate(180deg)";
+      let imgs = document.getElementsByTagName('img');
+      let i = 0;
+      let length = imgs.length;
+      for(i=0; i<length; i++) {
+        imgs[i].style.filter = "invert(1) contrast(0.95) saturate(0.5) hue-rotate(180deg)";
+      }
+    },
+    whiteMode() {
+      this.mode = "white"
+      document.getElementsByTagName('html')[0].style.filter = "";
+      let imgs = document.getElementsByTagName('img');
+      let i = 0;
+      let length = imgs.length;
+      for(i=0; i<length; i++) {
+        imgs[i].style.filter = "";
+      }
     }
   }
 }

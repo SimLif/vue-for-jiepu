@@ -67,7 +67,13 @@
             <div class="meta">病房{{ patienttable[t - 1].ward_id==2?101:102 }}</div>
             <div class="description">
               <div class="ui internally celled grid">
-                <div class="eight wide column" >心率{{data[t-1].Heart_rate}}次/分钟</div>
+                <div class="eight wide column" >心率
+                  <a class="ui blue image label">
+                    <i class="ui heart icon"></i>
+                    心率
+                    <div class="detail">{{data[t-1].Heart_rate}}次/分钟</div>
+                  </a>
+                </div>
                 <div class="eight wide column">血压{{data[t-1].Dbq}}/{{data[t-1].Sbq}}mmHg</div>
 
                 <div class="three column row">

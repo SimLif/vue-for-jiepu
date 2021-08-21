@@ -10,12 +10,24 @@
         </div>
         <div class="four wide column">
           <div
-            class="ui center aligned text container olive segment"
+            v-if="Heart_alert==1"
+            class="ui center aligned text container red segment"
             style="width: 100%; font-size: 50px; padding: 15px"
           >
+            <div class="floating ui red label">心率</div>
+            
+            <p style="color:red">{{Heart}}<label  style="font-size: 20px;color:red">次/分钟</label></p>
+            
+          </div>
+          <div
+            class="ui center aligned text container olive segment"
+            style="width: 100%; font-size: 50px; padding: 15px"
+            v-else
+          >
+            
             <div class="floating ui green label">心率</div>
-            <p v-if="Heart_alert==1" style="color:red">{{Heart}}<label  style="font-size: 20px;color:red">次/分钟</label></p>
-            <p v-else >{{Heart}}<label  style="font-size: 20px;">次/分钟</label></p>
+            
+            <p >{{Heart}}<label  style="font-size: 20px;">次/分钟</label></p>
           </div>
         </div>
       </div>

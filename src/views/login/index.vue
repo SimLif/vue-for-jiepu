@@ -90,15 +90,16 @@
                           </div>
                         </el-form-item>
                       </div>
-                      <div class="col-md-6" style="margin-top: -10px">
-                        <span for="verificationCode" class="form-label"
-                          >验证码</span
+                      <div class="col-12" style="margin-top: -10px">
+                        <label for="verificationCode" class="form-label"
+                          >验证码</label
                         >
                         <!-- <el-form-item  prop="code">
                         <input id="verificationCode" name="" type="text" class="form-control" />
                         </el-form-item> -->
                         <el-form-item prop="verifycode">
                           <input
+                            id="verificationCode"
                             v-model="loginForm.verifycode"
                             placeholder="请输入验证码"
                             type="text"
@@ -114,11 +115,12 @@
                               ></s-identify>
                             </div>
                             <!-- 刷新验证码 -->
-                            <el-button
-                              @click="refreshCode"
+                            <a
+                              @click.prevent="refreshCode"
                               type="text"
-                              class="textbtn"
-                              >看不清，换一张</el-button
+                              href=""
+                              style="color:white"
+                              >看不清，换一张</a
                             >
                           </div>
                         </el-form-item>
@@ -128,18 +130,9 @@
                         <!-- <img src="./images/yanzhengma.png" style="margin-top:10%;margin-left:30%" /> -->
                       </div>
 
-                      <div class="col-md-6">
-                        <!-- <div class="form-check form-switch">
-                          <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
-                          <label class="form-check-label" for="flexSwitchCheckChecked">Remember Me</label>
-                        </div> -->
-                      </div>
+                      
 
-                      <div class="col-md-6 text-end" style="margin-top: -10px">
-                        <a href="authentication-forgot-password.html"
-                          >忘记密码 ?</a
-                        >
-                      </div>
+                      
 
                       <div class="col-12">
                         <div class="d-grid">
